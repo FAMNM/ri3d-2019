@@ -4,6 +4,8 @@
 #include <frc/GenericHID.h>
 #include <utility>
 #include <functional>
+#include <unordered_map>
+#include <list>
 
 namespace famnm {
     enum class XboxButton {
@@ -39,18 +41,24 @@ namespace famnm {
 
     class GamepadConfig {
         double m_deadband;
+        double m_emButtonThresh;
 
     public:
-        GamepadConfig (double deadband=0.) : m_deadband(deadband) {}
+        GamepadConfig (double deadband=0., double thresh=0.5)
+            : m_deadband(deadband), m_emButtonThresh(thresh) {}
 
         virtual int rawButtons () const = 0;
         virtual int rawAxes () const = 0;
         virtual int emulatedButtons () const = 0;
         virtual std::pair<int, int> rightJoystick () const = 0;
         virtual std::pair<int, int> leftJoystick () const = 0;
-        virtual bool translate (int button, frc::GenericHID &hid) const { return false; }
         int totalButtons () const { return rawButtons() + emulatedButtons(); }
         double getDeadband () const { return m_deadband; }
+        double getEmulatedButtonThreshold () const { return m_emButtonThresh; }
+
+        virtual std::function<int(int)> getTranslateFunction const {
+            return [] (int button) -> int { return 0; };
+        }
     };
 
     class XboxConfig : public GamepadConfig {
@@ -58,7 +66,7 @@ namespace famnm {
 
     public:
         XboxConfig (double deadband=0., double thresh=0.5)
-            : GamepadConfig(deadband), m_emButtonThresh(thresh) {}
+            : GamepadConfig(deadband, thresh) {}
 
         virtual int rawButtons () const { return 11; }
         virtual int rawAxes () const { return 8; }
@@ -71,25 +79,29 @@ namespace famnm {
             return { static_cast<int>(XboxAxis::kLeftX),
                      static_cast<int>(XboxAxis::kLeftY) };
         }
-        virtual bool translate (int button, frc::GenericHID &hid) const override {
-            XboxButton convButton = static_cast<XboxButton>(button);
+        virtual std::function<int(int)> getTranslateFunction const {
+            return [] (int button) -> int {
+                XboxButton convButton = static_cast<XboxButton>(button);
 
-            switch (convButton) {
-            case kLT:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::kLeftTrigger)) >= m_emButtonThresh);
-            case kRT:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::kRightTrigger)) >= m_emButtonThresh);
-            case kDUp:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::DY)) <= -m_emButtonThresh);
-            case kDDown:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::DY)) >= m_emButtonThresh);
-            case kDLeft:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::DX)) <= -m_emButtonThresh);
-            case kDRight:
-                return (hid.GetRawAxis(static_cast<int>(XboxAxis::DX)) >= m_emButtonThresh);
-            default:
-                return (hid.GetRawButton(static_cast<int>(convButton)));
-            }
+                switch (convButton) {
+                case kLT:
+                    return static_cast<int>(XboxAxis::kLeftTrigger);
+                case kRT:
+                    return static_cast<int>(XboxAxis::kRightTrigger);
+                case kDUp:
+                    return -static_cast<int>(XboxAxis::kDY);
+                case kDDown:
+                    return static_cast<int>(XboxAxis::kDY);
+                case kDLeft:
+                    return -static_cast<int>(XboxAxis::kDX);
+                case kDRight:
+                    return static_cast<int>(XboxAxis::kDX);
+                default:
+                    return 0;
+                }
+
+                return 0;
+            };
         }
     };
 
@@ -102,19 +114,36 @@ namespace famnm {
         };
 
     private:
-        struct BoundOp {
-            BindType type;
+        struct OpData {
             int button;
+            BindType type;
             std::function<void()> op;
         };
 
-        std::vector<BoundOp> m_boundOps;
-        GamepadConfig *m_conf;
+        std::list<OpData> *m_boundOps;
+        std::function<int(int)> m_translate;
+        std::pair<int, int> m_rightAxis;
+        std::pair<int, int> m_leftAxis;
+        double m_deadband;
+        double m_emButtonThresh;
         bool *f_buttons;
+        int m_numButtons, m_rawButtons;
 
         double applyDeadband (double raw) const;
 
     public:
+        class BoundOp {
+            std::list<OpData>::iterator m_it;
+
+            BoundOp (std::list<OpData>::iterator it) : m_it(it) {}
+
+            friend class Gamepad;
+        public:
+
+            int button () { return m_it->button; }
+            BindType &type () { return m_it->type; }
+            std::function<void()> &op () { return m_it->op; }
+        };
 
         Gamepad (int port, const GamepadConfig &conf=XboxConfig());
         virtual ~Gamepad ();
@@ -123,22 +152,24 @@ namespace famnm {
 
         void poll ();
 
-        virtual GetX (frc::GenericHID::JoystickHand hand = frc::GenericHID::kRightHand) const;
-        virtual GetY (frc::GenericHID::JoystickHand hand = frc::GenericHID::kRightHand) const;
+        virtual double GetX (frc::GenericHID::JoystickHand hand = frc::GenericHID::kRightHand) const;
+        virtual double GetY (frc::GenericHID::JoystickHand hand = frc::GenericHID::kRightHand) const;
 
         template <typename ButtonEnum>
         bool readButton (ButtonEnum button) const { return readButton(static_cast<int>(button)); }
-        bool readButton (int button) const { return m_conf->translate(button, *this); }
+        bool readButton (int button) const;
 
         template <typename AxisEnum>
         double readAxis (AxisEnum axis) const { return readAxis(static_cast<int>(axis)); }
         double readAxis (int axis) const { return applyDeadband(GetRawAxis(axis)); }
 
-        template
-        int bind (ButtonEnum button, BindType type, std::function<void()> op) { 
+        template <typename ButtonEnum>
+        BoundOp bind (ButtonEnum button, BindType type, std::function<void()> op) { 
             return bind(static_cast<int>(button), type, op);
         }
-        int bind (ButtonEnum button, BindType type, std::function<void()> op);
+        BoundOp bind (int button, BindType type, std::function<void()> op);
+
+        void unbind (const BoundOp &op);
     };
 
 }
