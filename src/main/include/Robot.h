@@ -1,10 +1,13 @@
 #ifndef RI3DROBOT_H__
 #define RI3DROBOT_H__
 
+#include "subsystems/Drivetrain.h"
 #include "famnm/Robot.h"
 
 class Ri3dRobot : public famnm::Robot {
     //Declare subsystems here
+    Drivetrain m_drivetrain;
+
 public:
     Ri3dRobot ();
 

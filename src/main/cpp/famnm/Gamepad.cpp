@@ -44,7 +44,7 @@ namespace famnm {
             else transition = kNone;
 
             for (OpData &op : m_boundOps[i]) {
-                if (transition == op.type && transition != kNone) op.op()
+                if (transition == op.type && transition != kNone) op.op();
             }
         }
     }
@@ -56,7 +56,7 @@ namespace famnm {
         case frc::GenericHID::kLeftHand:
             return readAxis(m_leftAxis.first);
         default:
-            return 0.
+            return 0.;
         }
 
         return 0.;
@@ -85,9 +85,9 @@ namespace famnm {
     }
 
     Gamepad::BoundOp Gamepad::bind (int button, BindType type, std::function<void()> op) {
-        m_boundOps[button].emplace_back({button, type, op});
+        m_boundOps[button].emplace_back(type, op);
 
-        return BoundOp(--m_boundOps[button].end());
+        return BoundOp(button, --m_boundOps[button].end());
     }
 
     void Gamepad::unbind (const BoundOp &op) {

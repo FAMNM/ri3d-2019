@@ -1,9 +1,9 @@
 #ifndef FAMNM_SUBSYSTEM_H
 #define FAMNM_SUBSYSTEM_H
 
-class Robot;
-
 namespace famnm {
+    class Robot;
+
     class Subsystem {
         Robot *m_parent;
 

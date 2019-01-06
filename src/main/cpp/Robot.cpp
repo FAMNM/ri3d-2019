@@ -4,8 +4,9 @@
 static const constexpr double JOYSTICK_DEADBAND = 0.1;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
 
-Ri3dRobot::Ri3DRobot {
+Ri3dRobot::Ri3dRobot () {
     //Add subsystems here
+    addSubsystem(m_drivetrain);
 
     //Add gamepads here
     famnm::XboxConfig conf (JOYSTICK_DEADBAND, EM_BUTTON_THRESH);
@@ -13,29 +14,33 @@ Ri3dRobot::Ri3DRobot {
     //addGamepad(RobotMap::kOperator, conf);
 }
 
-void Ri3DRobot::init () {
+void Ri3dRobot::init () {
 }
 
-void Ri3DRobot::initDisabled () {
+void Ri3dRobot::initDisabled () {
 }
 
-void Ri3DRobot::initAuton () {
+void Ri3dRobot::initAuton () {
 }
 
-void Ri3DRobot::initTeleop () {
+void Ri3dRobot::initTeleop () {
 }
 
-void Ri3DRobot::initTest () {
+void Ri3dRobot::initTest () {
 }
 
-void Ri3DRobot::disabled () {
+void Ri3dRobot::disabled () {
 }
 
-void Ri3DRobot::auton () {
+void Ri3dRobot::auton () {
 }
 
-void Ri3DRobot::teleop () {
+void Ri3dRobot::teleop () {
 }
 
-void Ri3DRobot::test () {
+void Ri3dRobot::test () {
 }
+
+#ifndef RUNNING_FRC_TESTS
+int main () { return frc::StartRobot<Ri3dRobot>(); }
+#endif

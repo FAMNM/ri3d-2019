@@ -55,7 +55,7 @@ namespace famnm {
         double getDeadband () const { return m_deadband; }
         double getEmulatedButtonThreshold () const { return m_emButtonThresh; }
 
-        virtual std::function<int(int)> getTranslateFunction const {
+        virtual std::function<int(int)> getTranslateFunction() const {
             return [] (int button) -> int { return 0; };
         }
     };
@@ -78,22 +78,22 @@ namespace famnm {
             return { static_cast<int>(XboxAxis::kLeftX),
                      static_cast<int>(XboxAxis::kLeftY) };
         }
-        virtual std::function<int(int)> getTranslateFunction const {
+        virtual std::function<int(int)> getTranslateFunction() const {
             return [] (int button) -> int {
                 XboxButton convButton = static_cast<XboxButton>(button);
 
                 switch (convButton) {
-                case kLT:
+                case XboxButton::kLT:
                     return static_cast<int>(XboxAxis::kLeftTrigger);
-                case kRT:
+                case XboxButton::kRT:
                     return static_cast<int>(XboxAxis::kRightTrigger);
-                case kDUp:
+                case XboxButton::kDUp:
                     return -static_cast<int>(XboxAxis::kDY);
-                case kDDown:
+                case XboxButton::kDDown:
                     return static_cast<int>(XboxAxis::kDY);
-                case kDLeft:
+                case XboxButton::kDLeft:
                     return -static_cast<int>(XboxAxis::kDX);
-                case kDRight:
+                case XboxButton::kDRight:
                     return static_cast<int>(XboxAxis::kDX);
                 default:
                     return 0;
@@ -104,7 +104,7 @@ namespace famnm {
         }
     };
 
-    struct Gamepad : public GenericHID {
+    struct Gamepad : public frc::GenericHID {
         enum BindType {
             kHold,
             kDown,
@@ -114,7 +114,8 @@ namespace famnm {
 
     private:
         struct OpData {
-            int button;
+            OpData (BindType t, std::function<void()> o) : type(t), op(o) {}
+
             BindType type;
             std::function<void()> op;
         };
@@ -133,18 +134,20 @@ namespace famnm {
     public:
         class BoundOp {
             std::list<OpData>::iterator m_it;
+            int m_button;
 
-            BoundOp (std::list<OpData>::iterator it) : m_it(it) {}
+            BoundOp (int button, std::list<OpData>::iterator it)
+                : m_it(it), m_button(button) {}
 
             friend class Gamepad;
         public:
 
-            int button () { return m_it->button; }
+            int button () const { return m_button; }
             BindType &type () { return m_it->type; }
             std::function<void()> &op () { return m_it->op; }
         };
 
-        Gamepad (int port, const GamepadConfig &conf=XboxConfig());
+        Gamepad (int port=0, const GamepadConfig &conf=XboxConfig());
         virtual ~Gamepad ();
 
         Gamepad (const Gamepad &other) = delete;

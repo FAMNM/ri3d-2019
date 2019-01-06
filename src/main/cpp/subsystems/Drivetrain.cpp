@@ -1,5 +1,4 @@
 #include "subsystems/Drivetrain.h"
-#include "RobotMap.h"
 #include "famnm/Robot.h"
 
 Drivetrain::Drivetrain ()
@@ -12,6 +11,6 @@ void Drivetrain::init () {
 }
 
 void Drivetrain::teleop () {
-    m_drive->ArcadeDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
-                         m_driver->readAxis(famnm::XboxAxis::kRightX));
+    m_drive.ArcadeDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
+                        m_driver->readAxis(famnm::XboxAxis::kRightX));
 }

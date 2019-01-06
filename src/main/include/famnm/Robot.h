@@ -1,15 +1,16 @@
 #ifndef FAMNM_ROBOT_H
 #define FAMNM_ROBOT_H
 
-#include <frc/IterativeRobot.h>
+#include <frc/TimedRobot.h>
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 #include "Gamepad.h"
 #include "Subsystem.h"
 
 namespace famnm {
-    class Robot: public frc::IterativeRobot {
+    class Robot: public frc::TimedRobot {
         std::unordered_map<int, Subsystem*> m_subsystems;
         std::unordered_map<int, Gamepad> m_gamepads;
 
@@ -17,24 +18,24 @@ namespace famnm {
     public:
         virtual ~Robot ();
 
-        void addSubsystem (Subsystem *subsys) final {
+        void addSubsystem (Subsystem &subsys) {
             //Make sure subsystem is not already registered
-            if (m_subsystems.count(subsys->getId())) return;
+            if (m_subsystems.count(subsys.getId())) return;
 
             //Set parent and register subsystem
-            subsys->setParent(this);
-            m_subsystems[subsys->getId()] = subsys;
+            subsys.setParent(this);
+            m_subsystems[subsys.getId()] = &subsys;
         }
 
-        void addGamepad (int port, const GamepadConfig &conf=XboxConfig()) final {
+        void addGamepad (int port, const GamepadConfig &conf=XboxConfig()) {
             if (m_gamepads.count(port)) return;
 
             m_gamepads.emplace(std::piecewise_construct,
                                std::make_tuple(port),
-                               std::make_tuple(port, conf));
+                               std::make_tuple(port, std::ref(conf)));
         }
 
-        Gamepad &getGamepad (int port) final { return m_gamepads[port]; }
+        Gamepad &getGamepad (int port) { return m_gamepads[port]; }
 
         //If necessary, override these methods for hooks into the different modes
         virtual void init () {}

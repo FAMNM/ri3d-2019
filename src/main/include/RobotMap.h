@@ -35,6 +35,9 @@ namespace RobotMap {
     const constexpr int kRightDrive = 1;
 
     //SENSOR MAPPINGS
-};
+    
+    //SUBSYSTEM IDS
+    const constexpr int kDrivetrainId = 0;
+}
 
 #endif //RI3DROBOT_MAP_H__
