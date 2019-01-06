@@ -4,7 +4,6 @@
 #include <frc/GenericHID.h>
 #include <utility>
 #include <functional>
-#include <unordered_map>
 #include <list>
 
 namespace famnm {

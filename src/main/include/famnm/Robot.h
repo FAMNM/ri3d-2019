@@ -2,6 +2,7 @@
 #define FAMNM_ROBOT_H
 
 #include <frc/IterativeRobot.h>
+#include <vector>
 #include <unordered_map>
 #include <utility>
 #include "Gamepad.h"
@@ -16,10 +17,7 @@ namespace famnm {
     public:
         virtual ~Robot ();
 
-        template <typename ExtSubsystem, typename... Args>
-        void addSubsystem (Args&&... args) {
-            Subsystem *subsys = new ExtSubsystem(std::forward<Args>(args)...);
-
+        void addSubsystem (Subsystem *subsys) final {
             //Make sure subsystem is not already registered
             if (m_subsystems.count(subsys->getId())) return;
 
@@ -28,7 +26,7 @@ namespace famnm {
             m_subsystems[subsys->getId()] = subsys;
         }
 
-        void addGamepad (int port, const GamepadConfig &conf=XboxConfig()) {
+        void addGamepad (int port, const GamepadConfig &conf=XboxConfig()) final {
             if (m_gamepads.count(port)) return;
 
             m_gamepads.emplace(std::piecewise_construct,
@@ -36,8 +34,7 @@ namespace famnm {
                                std::make_tuple(port, conf));
         }
 
-        Subsystem &getSubsystem (int id) { return *m_subsystems[id]; }
-        Gamepad &getGamepad (int port) { return m_gamepads[port]; }
+        Gamepad &getGamepad (int port) final { return m_gamepads[port]; }
 
         //If necessary, override these methods for hooks into the different modes
         virtual void init () {}
