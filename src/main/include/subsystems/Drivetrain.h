@@ -21,6 +21,8 @@ class Drivetrain : public famnm::Subsystem {
     famnm::Gamepad *m_driver;
     bool m_useTank;
 
+    void teleopDrive();
+
 public:
     Drivetrain ();
 

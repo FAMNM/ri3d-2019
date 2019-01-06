@@ -35,11 +35,19 @@ namespace RobotMap {
     const constexpr int kLeftRearDrive = 1;
     const constexpr int kRightFrontDrive = 2;
     const constexpr int kRightRearDrive = 3;
+    const constexpr int kArmRotate = 4;
+    const constexpr int kArmIntake = 5;
+    const constexpr int kCoverKeyRotate = 6;
+
+    //RELAY MAPPINGS
+    const constexpr int kCoverKeyDeploy = 0;
 
     //SENSOR MAPPINGS
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;
+    const constexpr int kArmId = 1;
+    const constexpr int kCoverKeyId = 2;
 }
 
 #endif //RI3DROBOT_MAP_H__
