@@ -42,7 +42,9 @@ namespace RobotMap {
     //RELAY MAPPINGS
     const constexpr int kCoverKeyDeploy = 0;
 
-    //SENSOR MAPPINGS
+    //DIGITAL I/O
+    const constexpr int kArmEncoderA = 0;
+    const constexpr int kArmEncoderB = 1;
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;
