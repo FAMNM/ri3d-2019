@@ -7,7 +7,10 @@
 
 #pragma once
 
+#include <frc/XboxController.h>
+
 class OI {
  public:
   OI();
+  frc::XboxController gamepad1;
 };
