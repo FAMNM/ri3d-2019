@@ -5,7 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#ifndef RI3DROBOT_MAP_H__
+#define RI3DROBOT_MAP_H__
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -23,3 +24,30 @@
 // number and the module. For example you with a rangefinder:
 // constexpr int kRangeFinderPort = 1;
 // constexpr int kRangeFinderModule = 1;
+
+namespace RobotMap {
+    //GAMEPAD PORTS
+    const constexpr int kDriver = 0;
+    const constexpr int kOperator = 1;
+
+    //PWM MAPPINGS
+    const constexpr int kLeftFrontDrive = 0;
+    const constexpr int kLeftRearDrive = 1;
+    const constexpr int kRightFrontDrive = 2;
+    const constexpr int kRightRearDrive = 3;
+    const constexpr int kArmRotate = 4;
+    const constexpr int kArmIntake = 5;
+    const constexpr int kCoverKeyRotate = 6;
+
+    //RELAY MAPPINGS
+    const constexpr int kCoverKeyDeploy = 0;
+
+    //SENSOR MAPPINGS
+    
+    //SUBSYSTEM IDS
+    const constexpr int kDrivetrainId = 0;
+    const constexpr int kArmId = 1;
+    const constexpr int kCoverKeyId = 2;
+}
+
+#endif //RI3DROBOT_MAP_H__
