@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include "RobotMap.h"
+#include <cameraserver/CameraServer.h>
 
 static const constexpr double JOYSTICK_DEADBAND = 0.1;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
@@ -15,6 +16,7 @@ Ri3dRobot::Ri3dRobot () {
 }
 
 void Ri3dRobot::init () {
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
 }
 
 void Ri3dRobot::initDisabled () {

@@ -34,18 +34,21 @@ namespace famnm {
     }
 
     void Gamepad::poll () {
-        for (int i = 0; i < m_numButtons; ++i) {
+        for (int i = 1; i <= m_numButtons; ++i) {
             bool state = readButton(i);
+            bool last = f_buttons[i - 1];
             BindType transition;
 
-            if (state && !f_buttons[i]) transition = kDown;
-            else if (!state && f_buttons[i]) transition = kUp;
-            else if (state && f_buttons[i]) transition = kHold;
+            if (state && !last) transition = kDown;
+            else if (!state && last) transition = kUp;
+            else if (state && last) transition = kHold;
             else transition = kNone;
 
-            for (OpData &op : m_boundOps[i]) {
+            for (OpData &op : m_boundOps[i - 1]) {
                 if (transition == op.type && transition != kNone) op.op();
             }
+
+            f_buttons[i - 1] = state;
         }
     }
 
@@ -76,7 +79,7 @@ namespace famnm {
     }
 
     bool Gamepad::readButton (int button) const {
-        if (button < m_rawButtons) return GetRawButton(button);
+        if (button <= m_rawButtons) return GetRawButton(button);
 
         int axisIdx = m_translate(button);
 
@@ -85,12 +88,12 @@ namespace famnm {
     }
 
     Gamepad::BoundOp Gamepad::bind (int button, BindType type, std::function<void()> op) {
-        m_boundOps[button].emplace_back(type, op);
+        m_boundOps[button - 1].emplace_back(type, op);
 
-        return BoundOp(button, --m_boundOps[button].end());
+        return BoundOp(button, --m_boundOps[button - 1].end());
     }
 
     void Gamepad::unbind (const BoundOp &op) {
-        m_boundOps[op.button()].erase(op.m_it);
+        m_boundOps[op.button() - 1].erase(op.m_it);
     }
 }

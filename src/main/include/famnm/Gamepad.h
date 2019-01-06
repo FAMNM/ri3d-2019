@@ -60,8 +60,8 @@ namespace famnm {
         XboxConfig (double deadband=0., double thresh=0.5)
             : GamepadConfig(deadband, thresh) {}
 
-        virtual int rawButtons () const { return 11; }
-        virtual int rawAxes () const { return 8; }
+        virtual int rawButtons () const { return 10; }
+        virtual int rawAxes () const { return 2; }
         virtual int emulatedButtons () const { return 6; }
         virtual std::pair<int, int> rightJoystick () const { 
             return { static_cast<int>(XboxAxis::kRightX),
