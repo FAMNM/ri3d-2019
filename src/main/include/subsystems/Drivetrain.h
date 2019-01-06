@@ -19,6 +19,7 @@ class Drivetrain : public famnm::Subsystem {
 
     frc::DifferentialDrive m_drive;
     famnm::Gamepad *m_driver;
+    bool m_useTank;
 
 public:
     Drivetrain ();

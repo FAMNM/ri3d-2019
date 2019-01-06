@@ -8,34 +8,27 @@
 
 namespace famnm {
     enum class XboxButton {
-        kA = 0,
-        kB = 1,
-        kX = 2,
-        kY = 3,
-        kLB = 4,
-        kRB = 5,
-        kBack = 6,
-        kStart = 7,
-        kMenu = 8,
+        kA = 1,
+        kB = 2,
+        kX = 3,
+        kY = 4,
+        kLB = 5,
+        kRB = 6,
+        kBack = 7,
+        kStart = 8,
         kLeftStick = 9,
         kRightStick = 10,
         kLT = 11,
         kRT = 12,
-        kDUp = 13,
-        kDDown = 14,
-        kDLeft = 15,
-        kDRight = 16
     };
 
     enum class XboxAxis {
         kLeftX = 0,
         kLeftY = 1,
         kLeftTrigger = 2,
-        kRightX = 3,
+        kRightTrigger = 3,
+        kRightX = 4,
         kRightY = 5,
-        kRightTrigger = 5,
-        kDX = 6,
-        kDY = 7
     };
 
     class GamepadConfig {
@@ -87,14 +80,6 @@ namespace famnm {
                     return static_cast<int>(XboxAxis::kLeftTrigger);
                 case XboxButton::kRT:
                     return static_cast<int>(XboxAxis::kRightTrigger);
-                case XboxButton::kDUp:
-                    return -static_cast<int>(XboxAxis::kDY);
-                case XboxButton::kDDown:
-                    return static_cast<int>(XboxAxis::kDY);
-                case XboxButton::kDLeft:
-                    return -static_cast<int>(XboxAxis::kDX);
-                case XboxButton::kDRight:
-                    return static_cast<int>(XboxAxis::kDX);
                 default:
                     return 0;
                 }
