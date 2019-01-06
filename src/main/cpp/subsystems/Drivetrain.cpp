@@ -11,7 +11,7 @@ Drivetrain::Drivetrain ()
       m_drive(m_lDrive, m_rDrive),
       m_useTank(false) {}
 
-void Drivetrain::drive () {
+void Drivetrain::teleopDrive () {
     if (m_useTank) {
         m_drive.TankDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
                           -m_driver->readAxis(famnm::XboxAxis::kRightY));
