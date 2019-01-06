@@ -8,25 +8,17 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include <frc/drive/DifferentialDrive.h>
-#include <frc/Victor.h>
-#include <frc/SpeedControllerGroup.h>
 
-class Chassis : public frc::Subsystem {
+#include <frc/Spark.h>
+
+class Arm : public frc::Subsystem {
  public:
-  Chassis();
+  Arm();
   void InitDefaultCommand() override;
-  void move();
-  void stop();
 
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  frc::Victor frontLeft;
-  frc::Victor frontRight;
-  frc::Victor backLeft;
-  frc::Victor backRight;
-  frc::SpeedControllerGroup left;
-  frc::SpeedControllerGroup right;
-  frc::DifferentialDrive dDrive;
+  frc::Spark armLift;
+  frc::Spark intake;
 };

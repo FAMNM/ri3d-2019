@@ -5,35 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Chassis.h"
+#include "subsystems/CoverKey.h"
 
-#include "OI.h"
-#include "Robot.h"
-#include "commands/Drive.h"
+#include "RobotMap.h"
 
-Chassis::Chassis() : 
-  frc::Subsystem("Chassis"),
-  frontLeft{2},
-  frontRight{0},
-  backLeft{3},
-  backRight{1},
-  left{frontLeft, backLeft},
-  right{frontRight, backRight},
-  dDrive{left, right}
- {}
+CoverKey::CoverKey() :
+  frc::Subsystem("CoverKey"),
+  keyMotor{0},
+  keyLift{3} {}
 
-void Chassis::InitDefaultCommand() {
+void CoverKey::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
-  SetDefaultCommand(new Drive());
 }
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
-void Chassis::move() {
-  dDrive.TankDrive(-Robot::m_oi.gamepad1.GetRawAxis(1), -Robot::m_oi.gamepad1.GetRawAxis(5));
-}
-
-void Chassis::stop() {
-  dDrive.TankDrive(0, 0);
-}

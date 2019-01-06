@@ -12,6 +12,7 @@
 
 ExampleSubsystem Robot::m_subsystem;
 Chassis Robot::chassis;
+Arm Robot::arm;
 OI Robot::m_oi;
 
 void Robot::RobotInit() {
