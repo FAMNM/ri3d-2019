@@ -31,8 +31,10 @@ namespace RobotMap {
     const constexpr int kOperator = 1;
 
     //PWM MAPPINGS
-    const constexpr int kLeftDrive = 0;
-    const constexpr int kRightDrive = 1;
+    const constexpr int kLeftFrontDrive = 0;
+    const constexpr int kLeftRearDrive = 1;
+    const constexpr int kRightFrontDrive = 2;
+    const constexpr int kRightRearDrive = 3;
 
     //SENSOR MAPPINGS
     

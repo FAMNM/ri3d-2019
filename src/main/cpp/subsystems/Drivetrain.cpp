@@ -2,9 +2,13 @@
 #include "famnm/Robot.h"
 
 Drivetrain::Drivetrain ()
-    : m_leftDrive(RobotMap::kLeftDrive),
-      m_rightDrive(RobotMap::kRightDrive),
-      m_drive(m_leftDrive, m_rightDrive) {}
+    : m_lfDrive(RobotMap::kLeftFrontDrive),
+      m_rfDrive(RobotMap::kRightFrontDrive),
+      m_lrDrive(RobotMap::kLeftRearDrive),
+      m_rrDrive(RobotMap::kRightRearDrive),
+      m_lDrive(m_lfDrive, m_lrDrive),
+      m_rDrive(m_rfDrive, m_rrDrive),
+      m_drive(m_lDrive, m_rDrive) {}
 
 void Drivetrain::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);

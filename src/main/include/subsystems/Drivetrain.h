@@ -1,15 +1,22 @@
 #ifndef DRIVETRAIN_H__
 #define DRIVETRAIN_H__
 
-#include <frc/Spark.h>
+#include <frc/Victor.h>
+#include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 #include "famnm/Subsystem.h"
 #include "famnm/Gamepad.h"
 #include "RobotMap.h"
 
 class Drivetrain : public famnm::Subsystem {
-    frc::Spark m_leftDrive;
-    frc::Spark m_rightDrive;
+    frc::Victor m_lfDrive;
+    frc::Victor m_rfDrive;
+    frc::Victor m_lrDrive;
+    frc::Victor m_rrDrive;
+
+    frc::SpeedControllerGroup m_lDrive;
+    frc::SpeedControllerGroup m_rDrive;
+
     frc::DifferentialDrive m_drive;
     famnm::Gamepad *m_driver;
 
