@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "RobotMap.h"
 #include <cameraserver/CameraServer.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 static const constexpr double JOYSTICK_DEADBAND = 0.1;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
@@ -8,6 +9,7 @@ static const constexpr double EM_BUTTON_THRESH = 0.5;
 Ri3dRobot::Ri3dRobot () {
     //Add subsystems here
     addSubsystem(m_drivetrain);
+    addSubsystem(m_arm);
 
     //Add gamepads here
     famnm::XboxConfig conf (JOYSTICK_DEADBAND, EM_BUTTON_THRESH);

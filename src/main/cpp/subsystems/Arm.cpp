@@ -1,6 +1,7 @@
-#include "Arm.h"
+#include "subsystems/Arm.h"
 #include "famnm/Robot.h"
-#include <frc/SmartDashboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <iostream>
 
 Arm::Arm ()
     : m_rotate(RobotMap::kArmRotate),
@@ -12,7 +13,9 @@ void Arm::init () {
 }
 
 void Arm::disabled () {
-    frc::SmartDashboard::PutNumber("Arm Encoder", m_armEnc.getDistance());
+    frc::SmartDashboard::PutData("Arm Encoder", &m_armEnc);
+    frc::SmartDashboard::PutNumber("Test", 0);
+    std::cout << "Hello World!" << std::endl;
 }
 
 void Arm::teleop () {
