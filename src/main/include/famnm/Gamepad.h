@@ -20,6 +20,10 @@ namespace famnm {
         kRightStick = 10,
         kLT = 11,
         kRT = 12,
+        kDUp = 13,
+        kDDown = 14,
+        kDLeft = 15,
+        kDRight = 16
     };
 
     enum class XboxAxis {
@@ -61,7 +65,7 @@ namespace famnm {
             : GamepadConfig(deadband, thresh) {}
 
         virtual int rawButtons () const { return 10; }
-        virtual int rawAxes () const { return 2; }
+        virtual int rawAxes () const { return 6; }
         virtual int emulatedButtons () const { return 6; }
         virtual std::pair<int, int> rightJoystick () const { 
             return { static_cast<int>(XboxAxis::kRightX),
@@ -80,6 +84,14 @@ namespace famnm {
                     return static_cast<int>(XboxAxis::kLeftTrigger);
                 case XboxButton::kRT:
                     return static_cast<int>(XboxAxis::kRightTrigger);
+                case XboxButton::kDUp:
+                    return -6;
+                case XboxButton::kDDown:
+                    return 6;
+                case XboxButton::kDLeft:
+                    return -7;
+                case XboxButton::kDRight:
+                    return 7;
                 default:
                     return 0;
                 }
@@ -112,7 +124,7 @@ namespace famnm {
         double m_deadband;
         double m_emButtonThresh;
         bool *f_buttons;
-        int m_numButtons, m_rawButtons;
+        int m_numButtons, m_rawButtons, m_numAxes;
 
         double applyDeadband (double raw) const;
 
@@ -125,7 +137,9 @@ namespace famnm {
                 : m_it(it), m_button(button) {}
 
             friend class Gamepad;
+
         public:
+            BoundOp () : m_it(std::list<OpData>::iterator()), m_button(-1) {}
 
             int button () const { return m_button; }
             BindType &type () { return m_it->type; }
