@@ -6,15 +6,15 @@ static constexpr double square (double x) { return x * x; }
 
 namespace famnm {
     Gamepad::Gamepad (int port, const GamepadConfig &conf)
-        : GenericHID(port) {
-        m_translate = conf.getTranslateFunction();
-        m_deadband = conf.getDeadband();
-        m_emButtonThresh = conf.getEmulatedButtonThreshold();
-        m_rightAxis = conf.rightJoystick();
-        m_leftAxis = conf.leftJoystick();
-
-        m_numButtons = conf.totalButtons();
-        m_rawButtons = conf.rawButtons();
+        : GenericHID(port),
+          m_translate(conf.getTranslateFunction()),
+          m_rightAxis(conf.rightJoystick()),
+          m_leftAxis(conf.leftJoystick()),
+          m_deadband(conf.getDeadband()),
+          m_emButtonThresh(conf.getEmulatedButtonThreshold()),
+          m_numButtons(conf.totalButtons()),
+          m_rawButtons(conf.rawButtons()),
+          m_numAxes(conf.rawAxes()) {
         f_buttons = new bool [m_numButtons];
         memset(f_buttons, 0, m_numButtons);
 
@@ -82,9 +82,25 @@ namespace famnm {
         if (button <= m_rawButtons) return GetRawButton(button);
 
         int axisIdx = m_translate(button);
+        
+        if (abs(axisIdx) < m_numAxes) { 
+            return (axisIdx < 0 ? (GetRawAxis(abs(axisIdx)) <= -m_emButtonThresh)
+                                : (GetRawAxis(axisIdx) >= m_emButtonThresh));
+        } else {
+            int povIdx = (abs(axisIdx) - m_numAxes) >> 1;
+            int povAxis = (abs(axisIdx) - m_numAxes) % 2;
+            int povRotation = GetPOV(povIdx);
 
-        return (axisIdx < 0 ? (GetRawAxis(abs(axisIdx)) <= -m_emButtonThresh)
-                            : (GetRawAxis(axisIdx) >= m_emButtonThresh));
+            if (povAxis == 0) { //Y axis
+                return (axisIdx < 0 ? (povRotation == 0) 
+                                    : (povRotation == 180));
+            } else {            //X axis
+                return (axisIdx < 0 ? (povRotation == 270)
+                                    : (povRotation == 90));
+            }
+        }
+
+        return false;
     }
 
     Gamepad::BoundOp Gamepad::bind (int button, BindType type, std::function<void()> op) {
