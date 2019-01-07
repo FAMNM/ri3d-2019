@@ -13,10 +13,10 @@ Drivetrain::Drivetrain ()
 
 void Drivetrain::teleopDrive () {
     if (m_useTank) {
-        m_drive.TankDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
-                          -m_driver->readAxis(famnm::XboxAxis::kRightY));
+        m_drive.TankDrive(m_driver->readAxis(famnm::XboxAxis::kLeftY),
+                          m_driver->readAxis(famnm::XboxAxis::kRightY));
     } else {
-        m_drive.ArcadeDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
+        m_drive.ArcadeDrive(m_driver->readAxis(famnm::XboxAxis::kLeftY),
                             m_driver->readAxis(famnm::XboxAxis::kRightX));
     }
 }
@@ -24,7 +24,7 @@ void Drivetrain::teleopDrive () {
 void Drivetrain::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
-    m_driver->bind(famnm::XboxButton::kA, famnm::Gamepad::kUp, [this]() {
+    m_driver->bind(famnm::XboxButton::kB, famnm::Gamepad::kUp, [this]() {
         m_useTank = !m_useTank;
     });
 }
