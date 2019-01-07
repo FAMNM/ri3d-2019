@@ -11,6 +11,12 @@ class HatchKey : public famnm::Subsystem {
     frc::Servo m_lock;
     famnm::Gamepad *m_driver;
 
+    void rotateKey();
+    void toggleKeyDeployed();
+
+    bool keyLocked;
+    bool keyDeployed;
+
 public:
     HatchKey ();
 

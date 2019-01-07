@@ -7,6 +7,7 @@
 class Ri3dRobot : public famnm::Robot {
     //Declare subsystems here
     Drivetrain m_drivetrain;
+    HatchKey m_hatchkey;
 
 public:
     Ri3dRobot ();
