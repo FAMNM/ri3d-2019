@@ -1,5 +1,6 @@
 #include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
+#include <iostream>
 
 using namespace famnm;
 

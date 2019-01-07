@@ -1,5 +1,6 @@
 #include "famnm/Robot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <iostream>
 
 template <typename K, typename V>
 void loopMap (std::unordered_map<K, V> &map, std::function<void(V&)> func) {
@@ -65,8 +66,11 @@ namespace famnm {
 
     void Robot::TeleopPeriodic () {
         periodic();
+        std::cout << "teleop: periodic done" << std::endl;
         loopMap<int, Subsystem*>(m_subsystems, [](Subsystem*& subsys) { subsys->teleop(); });
+        std::cout << "teleop: subsystems done" << std::endl;
         teleop();
+        std::cout << "teleop: loop done" << std::endl;
     }
 
     void Robot::TestPeriodic () {

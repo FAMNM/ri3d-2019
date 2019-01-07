@@ -1,6 +1,5 @@
 #include "subsystems/Arm.h"
 #include "famnm/Robot.h"
-#include <iostream>
 
 using namespace famnm;
 
@@ -65,14 +64,14 @@ void Arm::init () {
 
     m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
                                          [this]() {
-        if (m_armPid.IsEnabled() || m_driver->readButton(XboxButton::kStart)
-                || m_driver->readButton(XboxButton::kBack)) {
+        if (m_armPid.IsEnabled() || m_driver->readButton(XboxButton::kStart)) {
             return;
         }
 
         m_rotate.Set(ARM_MANUAL_SPEED);
     }));
 
+    
     //Disable PID hooks
     m_driver->bind(XboxButton::kA, Gamepad::kUp, unsetPidFn);
     m_driver->bind(XboxButton::kB, Gamepad::kUp, unsetPidFn);
@@ -88,6 +87,7 @@ void Arm::initDisabled () {
     //Disable all PID manipulation
     for (Gamepad::BoundOp &op : m_teleopOps) op.type() = Gamepad::kNone;
     m_armPid.Disable();
+    m_rotate.Set(0);
 }
 
 void Arm::initTeleop () {
@@ -120,5 +120,5 @@ void Arm::manualReset () {
 }
 
 void Arm::manualIntake () {
-    m_intake.Set(0.4 * (m_driver->GetRawAxis(XboxAxis::kRightTrigger) - m_driver->GetRawAxis(XboxAxis::kLeftTrigger)));
+    m_intake.Set(0.4 * (m_driver->rawAxis(XboxAxis::kRightTrigger) - m_driver->rawAxis(XboxAxis::kLeftTrigger)));
 }
