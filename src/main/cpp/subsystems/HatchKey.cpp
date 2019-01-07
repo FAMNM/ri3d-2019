@@ -1,6 +1,8 @@
 #include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
 
+using namespace famnm;
+
 HatchKey::HatchKey ()
     : m_deploy(RobotMap::kHatchKeyDeploy),
       m_lock(RobotMap::kHatchKeyLock),
@@ -12,26 +14,51 @@ HatchKey::HatchKey ()
 void HatchKey::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
-    m_driver->bind(famnm::XboxButton::kRB, famnm::Gamepad::kDown, [this]() {
-        if(!keyLocked) {
-            rotateKey();
-        }
-    });
-    m_driver->bind(famnm::XboxButton::kLB, famnm::Gamepad::kDown, [this]() {
-        if(keyLocked) {
-            rotateKey();
-        }
-    });
-    m_driver->bind(famnm::XboxButton::kDUp, famnm::Gamepad::kDown, [this]() {
+    auto undeployKey = [this]() {
         if(keyDeployed && timer.Get() == 0) {
             toggleKeyDeployed();
         }
-    });
-    m_driver->bind(famnm::XboxButton::kDDown, famnm::Gamepad::kDown, [this]() {
+    };
+
+    //Lock key
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kRB, Gamepad::kNone,
+                                         [this]() {
+        if(!keyLocked) {
+            rotateKey();
+        }
+    }));
+
+    //Unlock key
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kLB, Gamepad::kNone,
+                                         [this]() {
+        if(keyLocked) {
+            rotateKey();
+        }
+    }));
+
+    //Deploy key
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
+                                         [this]() {
         if(!keyDeployed && timer.Get() == 0) {
             toggleKeyDeployed();
         }
-    });
+    }));
+
+    //Undeploy key
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
+                                         undeployKey));
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
+                                         undeployKey));
+}
+
+void HatchKey::initDisabled () {
+    for (Gamepad::BoundOp &op : m_teleopOps) op.type() = Gamepad::kNone;
+
+    m_deploy.Set(0);
+}
+
+void HatchKey::initTeleop () {
+    for (Gamepad::BoundOp &op : m_teleopOps) op.type() = Gamepad::kDown;
 }
 
 void HatchKey::teleop () {
