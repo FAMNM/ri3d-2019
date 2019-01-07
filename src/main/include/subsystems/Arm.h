@@ -9,7 +9,6 @@
 #include <frc/DigitalInput.h>
 #include <frc/PIDController.h>
 #include <frc/PowerDistributionPanel.h>
-#include <frc/Timer.h>
 #include <vector>
 
 class Arm : public famnm::Subsystem {
@@ -26,7 +25,6 @@ class Arm : public famnm::Subsystem {
     static const constexpr double ARM_MANUAL_SPEED = 0.35;
 
     static const constexpr double STALL_CURRENT = 0.2; //TODO - determine the actual value of this
-    static const constexpr double STALL_TIME = 1.; //TODO - decide on a value for this
 
     frc::Spark m_rotate;
     frc::Spark m_intake;
@@ -34,7 +32,6 @@ class Arm : public famnm::Subsystem {
     frc::DigitalInput m_armReset;
     frc::PIDController m_armPid;
     frc::PowerDistributionPanel *m_pdp;
-    frc::Timer m_stallTimer;
     famnm::Gamepad *m_driver;
 
     std::vector<famnm::Gamepad::BoundOp> m_teleopDown;
