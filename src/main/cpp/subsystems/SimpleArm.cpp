@@ -1,11 +1,13 @@
 #include "subsystems/SimpleArm.h"
 #include "famnm/Robot.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 using namespace famnm;
 
 SimpleArm::SimpleArm() :
     m_raise(RobotMap::kArmRotate),
     m_intake(RobotMap::kArmIntake),
+    m_armEnc(RobotMap::kArmEncoderA, RobotMap::kArmEncoderB),
     m_driver(nullptr) {}
 
 void SimpleArm::init() {
@@ -40,6 +42,7 @@ void SimpleArm::initTeleop() {
 
 void SimpleArm::teleop() {
     manualIntake();
+    frc::SmartDashboard::PutData("Arm encoder", &m_armEnc);
 }
 
 void SimpleArm::manualIntake() {
