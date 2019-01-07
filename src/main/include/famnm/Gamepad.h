@@ -85,13 +85,13 @@ namespace famnm {
                 case XboxButton::kRT:
                     return static_cast<int>(XboxAxis::kRightTrigger);
                 case XboxButton::kDUp:
-                    return -rawAxes();
+                    return -6;
                 case XboxButton::kDDown:
-                    return rawAxes();
+                    return 6;
                 case XboxButton::kDLeft:
-                    return -(rawAxes() + 1);
+                    return -7;
                 case XboxButton::kDRight:
-                    return rawAxes() + 1;
+                    return 7;
                 default:
                     return 0;
                 }
