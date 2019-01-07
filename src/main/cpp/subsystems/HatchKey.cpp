@@ -3,7 +3,7 @@
 
 HatchKey::HatchKey ()
     : m_deploy(RobotMap::kHatchKeyDeploy),
-      m_lock(RobotMap::kHatchKeyRotate),
+      m_lock(RobotMap::kHatchKeyLock),
       m_driver(nullptr),
       keyLocked(false),
       keyDeployed(false) {}
@@ -41,9 +41,9 @@ void HatchKey::rotateKey() {
 void HatchKey::toggleKeyDeployed() {
     //TODO Add a timer to stop this
     if(keyDeployed) {
-        m_lock.Set(m_lock.Value::kForward);
+        m_deploy.Set(m_deploy.Value::kForward);
     }
     else {
-        m_lock.Set(m_lock.Value::kReverse);
+        m_deploy.Set(m_deploy.Value::kReverse);
     }
 }

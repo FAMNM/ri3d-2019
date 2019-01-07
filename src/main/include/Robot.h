@@ -2,6 +2,7 @@
 #define RI3DROBOT_H__
 
 #include "subsystems/Drivetrain.h"
+#include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
 
 class Ri3dRobot : public famnm::Robot {

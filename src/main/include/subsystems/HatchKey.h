@@ -3,6 +3,7 @@
 
 #include "famnm/Subsystem.h"
 #include "famnm/Gamepad.h"
+#include "RobotMap.h"
 #include <frc/Relay.h>
 #include <frc/Servo.h>
 
