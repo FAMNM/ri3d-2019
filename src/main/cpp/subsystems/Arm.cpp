@@ -146,7 +146,7 @@ void Arm::manualIntake () {
     else {
         if(m_stallTimer.Get() > 0) {
             m_stallTimer.Stop();
-            m_stallTimer.reset(); 
+            m_stallTimer.Reset(); 
         }
     }
     m_intake.Set(intakeSpeed);

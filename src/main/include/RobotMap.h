@@ -47,6 +47,7 @@ namespace RobotMap {
     const constexpr int kArmEncoderA = 0;
     const constexpr int kArmEncoderB = 1;
     const constexpr int kArmReset = 2;
+    const constexpr int kHatchKeyLimit = 3;
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;

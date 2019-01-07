@@ -25,7 +25,7 @@ class Arm : public famnm::Subsystem {
     static const constexpr double ARM_RESET_SPEED = 0.15;
     static const constexpr double ARM_MANUAL_SPEED = 0.35;
 
-    static const constexpr double STALL_CURRENT = 0.2; //TODO - determine the actual value of this
+    static const constexpr double STALL_CURRENT = 10; //TODO - determine the actual value of this
     static const constexpr double STALL_TIME = 1.; //TODO - decide on a value for this
 
     frc::Spark m_rotate;
