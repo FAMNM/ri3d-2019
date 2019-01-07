@@ -3,12 +3,14 @@
 
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Arm.h"
+#include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
 
 class Ri3dRobot : public famnm::Robot {
     //Declare subsystems here
     Drivetrain m_drivetrain;
     Arm m_arm;
+    HatchKey m_hatchkey;
 
 public:
     Ri3dRobot ();
