@@ -14,6 +14,7 @@ Arm::Arm ()
 
 void Arm::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
+    m_operator = &getParent()->getGamepad(RobotMap::kOperator);
     getParent()->addSensor("Arm Encoder", &m_armEnc);
     getParent()->addSensor("Arm PID", &m_armPid);
 
@@ -68,8 +69,10 @@ void Arm::initTeleop () {
 }
 
 void Arm::teleop () {
-    //Arm encoder reset
-    if (!m_armPid.IsEnabled()) manualReset();
+    if (!m_armPid.IsEnabled()) {
+        manualReset();
+        manualArm();
+    }
     
     //Intake roller manipulation
     manualIntake();
@@ -89,6 +92,10 @@ void Arm::manualReset () {
     } else if (m_rotate.Get() != 0.) {
         m_rotate.Set(0.);
     }
+}
+
+void Arm::manualArm () {
+    m_rotate.Set(m_operator->readAxis(XboxAxis::kLeftY));
 }
 
 void Arm::manualIntake () {

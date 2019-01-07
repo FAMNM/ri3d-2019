@@ -14,7 +14,7 @@ Ri3dRobot::Ri3dRobot () {
     //Add gamepads here
     famnm::XboxConfig conf (JOYSTICK_DEADBAND, EM_BUTTON_THRESH);
     addGamepad(RobotMap::kDriver, conf);
-    //addGamepad(RobotMap::kOperator, conf);
+    addGamepad(RobotMap::kOperator, conf);
 }
 
 void Ri3dRobot::init () {
@@ -23,6 +23,7 @@ void Ri3dRobot::init () {
 }
 
 void Ri3dRobot::initDisabled () {
+    enableLogging(true);
 }
 
 void Ri3dRobot::initAuton () {

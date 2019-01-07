@@ -28,12 +28,15 @@ class Arm : public famnm::Subsystem {
     frc::DigitalInput m_armReset;
     frc::PIDController m_armPid;
     famnm::Gamepad *m_driver;
+    famnm::Gamepad *m_operator;
 
     std::vector<famnm::Gamepad::BoundOp> m_teleopOps;
     bool m_resetting;
 
     void manualReset ();
     void manualIntake ();
+    void manualArm();
+
 public:
     Arm ();
 
