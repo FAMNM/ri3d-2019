@@ -4,6 +4,7 @@
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Arm.h"
 #include "subsystems/HatchKey.h"
+#include "subsystems/SimpleArm.h"
 #include "famnm/Robot.h"
 
 class Ri3dRobot : public famnm::Robot {
@@ -11,6 +12,7 @@ class Ri3dRobot : public famnm::Robot {
     Drivetrain m_drivetrain;
     Arm m_arm;
     HatchKey m_hatchkey;
+    SimpleArm m_simplearm;
 
 public:
     Ri3dRobot ();

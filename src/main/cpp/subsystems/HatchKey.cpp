@@ -15,9 +15,14 @@ void HatchKey::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
     auto undeployKey = [this]() {
-        if(keyDeployed && timer.Get() == 0) {
+        /*if(keyDeployed && timer.Get() == 0) {
             toggleKeyDeployed();
-        }
+        }*/
+        m_deploy.Set(0.7);
+    };
+
+    auto stopKey = [this]() {
+        m_deploy.Set(0);
     };
 
     //Lock key
@@ -39,16 +44,22 @@ void HatchKey::init () {
     //Deploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
                                          [this]() {
-        if(!keyDeployed && timer.Get() == 0) {
-            toggleKeyDeployed();
-        }
+        m_deploy.Set(-0.7);
     }));
 
     //Undeploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
                                          undeployKey));
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
-                                         undeployKey));
+    //m_teleopOps.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
+    //                                     undeployKey));
+
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDLeft, Gamepad::kNone, [this]() {
+        m_deploy.Set(-0.2);
+    }));
+
+    m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kDLeft, Gamepad::kUp, stopKey);
 }
 
 void HatchKey::initDisabled () {
@@ -62,11 +73,11 @@ void HatchKey::initTeleop () {
 }
 
 void HatchKey::teleop () {
-    if(timer.Get() > 0.5) {
+    /*if(timer.Get() > 0.5) {
         m_deploy.Set(0);
         timer.Stop();
         timer.Reset();
-    }
+    }*/
 }
 
 void HatchKey::rotateKey() {

@@ -10,6 +10,7 @@ Ri3dRobot::Ri3dRobot () {
     addSubsystem(m_drivetrain);
     addSubsystem(m_arm);
     addSubsystem(m_hatchkey);
+    addSubsystem(m_simplearm);
 
     //Add gamepads here
     famnm::XboxConfig conf (JOYSTICK_DEADBAND, EM_BUTTON_THRESH);
