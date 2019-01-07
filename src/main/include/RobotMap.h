@@ -45,6 +45,7 @@ namespace RobotMap {
     //DIGITAL I/O
     const constexpr int kArmEncoderA = 0;
     const constexpr int kArmEncoderB = 1;
+    const constexpr int kArmReset = 2;
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;
