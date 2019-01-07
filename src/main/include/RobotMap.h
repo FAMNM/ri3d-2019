@@ -37,7 +37,7 @@ namespace RobotMap {
     const constexpr int kRightRearDrive = 3;
     const constexpr int kArmRotate = 4;
     const constexpr int kArmIntake = 5;
-    const constexpr int kHatchKeyLock = 6;
+    const constexpr int kHatchKeyLock = 7;
 
     //RELAY MAPPINGS
     const constexpr int kHatchKeyDeploy = 0;

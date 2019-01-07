@@ -6,7 +6,8 @@ HatchKey::HatchKey ()
       m_lock(RobotMap::kHatchKeyLock),
       m_driver(nullptr),
       keyLocked(false),
-      keyDeployed(false) {}
+      keyDeployed(false),
+      timer() {}
 
 void HatchKey::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
@@ -26,7 +27,12 @@ void HatchKey::init () {
 }
 
 void HatchKey::teleop () {
-    //TODO Add controllers for deployment (using dpad)
+    if(timer.Get() > 1) {
+        m_deploy.Set(0);
+        timer.Stop();
+        timer.Reset();
+    }
+    if()
 }
 
 void HatchKey::rotateKey() {
@@ -39,11 +45,13 @@ void HatchKey::rotateKey() {
 }
 
 void HatchKey::toggleKeyDeployed() {
-    //TODO Add a timer to stop this
     if(keyDeployed) {
-        m_deploy.Set(m_deploy.Value::kForward);
+        m_deploy.Set(0.1);
     }
     else {
-        m_deploy.Set(m_deploy.Value::kReverse);
+        m_deploy.Set(-0.1);
     }
+    keyDeployed = !keyDeployed;
+    timer.Reset();
+    timer.Start();
 }

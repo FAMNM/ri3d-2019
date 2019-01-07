@@ -4,13 +4,15 @@
 #include "famnm/Subsystem.h"
 #include "famnm/Gamepad.h"
 #include "RobotMap.h"
-#include <frc/Relay.h>
+#include <frc/Spark.h>
 #include <frc/Servo.h>
+#include <frc/Timer.h>
 
 class HatchKey : public famnm::Subsystem {
-    frc::Relay m_deploy;
+    frc::Spark m_deploy;
     frc::Servo m_lock;
     famnm::Gamepad *m_driver;
+    frc::Timer timer;
 
     void rotateKey();
     void toggleKeyDeployed();
