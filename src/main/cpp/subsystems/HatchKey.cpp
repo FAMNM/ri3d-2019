@@ -18,7 +18,7 @@ void HatchKey::init () {
         /*if(keyDeployed && timer.Get() == 0) {
             toggleKeyDeployed();
         }*/
-        m_deploy.Set(-0.7);
+        m_deploy.Set(0.7);
     };
 
     auto stopKey = [this]() {
@@ -44,7 +44,7 @@ void HatchKey::init () {
     //Deploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
                                          [this]() {
-        m_deploy.Set(0.7);
+        m_deploy.Set(-0.7);
     }));
 
     //Undeploy key
