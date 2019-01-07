@@ -62,7 +62,7 @@ void HatchKey::initTeleop () {
 }
 
 void HatchKey::teleop () {
-    if(timer.Get() > 1) {
+    if(timer.Get() > 0.5) {
         m_deploy.Set(0);
         timer.Stop();
         timer.Reset();
@@ -81,10 +81,10 @@ void HatchKey::rotateKey() {
 
 void HatchKey::toggleKeyDeployed() {
     if(keyDeployed) {
-        m_deploy.Set(0.1);
+        m_deploy.Set(0.5);
     }
     else {
-        m_deploy.Set(-0.1);
+        m_deploy.Set(-0.5);
     }
     keyDeployed = !keyDeployed;
     timer.Reset();
