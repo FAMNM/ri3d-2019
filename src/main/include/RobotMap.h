@@ -36,11 +36,11 @@ namespace RobotMap {
     const constexpr int kRightFrontDrive = 2;
     const constexpr int kRightRearDrive = 3;
     const constexpr int kArmRotate = 4;
-    const constexpr int kArmIntake = 5;
-    const constexpr int kCoverKeyRotate = 6;
+    const constexpr int kArmIntake = 6;
+    const constexpr int kCoverKeyRotate = 9;
 
     //RELAY MAPPINGS
-    const constexpr int kCoverKeyDeploy = 0;
+    const constexpr int kCoverKeyDeploy = 5;
 
     //DIGITAL I/O
     const constexpr int kArmEncoderA = 0;

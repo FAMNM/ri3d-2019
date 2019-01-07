@@ -28,6 +28,7 @@ void Ri3dRobot::initAuton () {
 }
 
 void Ri3dRobot::initTeleop () {
+    enableLogging(false);
 }
 
 void Ri3dRobot::initTest () {
