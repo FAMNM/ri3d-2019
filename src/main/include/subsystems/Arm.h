@@ -11,16 +11,17 @@
 #include <vector>
 
 class Arm : public famnm::Subsystem {
-    static const constexpr double ARM_P = 0.5;
+    static const constexpr double ARM_P = -0.5;
     static const constexpr double ARM_I = 0.;
     static const constexpr double ARM_D = 0.;
 
-    static const constexpr double ARM_FLOOR = 10.;
+    static const constexpr double ARM_FLOOR = 0.;
     static const constexpr double ARM_CARGO_SHIP = 100.;
     static const constexpr double ARM_ROCKET = 200.;
     static const constexpr double ARM_PACKAGE = 300.;
 
     static const constexpr double ARM_RESET_SPEED = 0.5;
+    static const constexpr double ARM_MANUAL_SPEED = 0.35;
 
     frc::Spark m_rotate;
     frc::Spark m_intake;
@@ -30,10 +31,10 @@ class Arm : public famnm::Subsystem {
     famnm::Gamepad *m_driver;
 
     std::vector<famnm::Gamepad::BoundOp> m_teleopOps;
-    bool m_resetting;
 
     void manualReset ();
     void manualIntake ();
+
 public:
     Arm ();
 

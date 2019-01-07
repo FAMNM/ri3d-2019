@@ -25,41 +25,18 @@ void HatchKey::init () {
         m_deploy.Set(0);
     };
 
-    //Lock key
+    //Deploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kRB, Gamepad::kNone,
                                          [this]() {
-        if(!keyLocked) {
-            rotateKey();
-        }
-    }));
-
-    //Unlock key
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kLB, Gamepad::kNone,
-                                         [this]() {
-        if(keyLocked) {
-            rotateKey();
-        }
-    }));
-
-    //Deploy key
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
-                                         [this]() {
-        m_deploy.Set(-0.7);
+        m_deploy.Set((m_driver->readButton(XboxButton::kStart) ? -0.3 : -0.7));
     }));
 
     //Undeploy key
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kLB, Gamepad::kNone,
                                          undeployKey));
-    //m_teleopOps.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
-    //                                     undeployKey));
 
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kDLeft, Gamepad::kNone, [this]() {
-        m_deploy.Set(-0.2);
-    }));
-
-    m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopKey);
-    m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopKey);
-    m_driver->bind(XboxButton::kDLeft, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kLB, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kRB, Gamepad::kUp, stopKey);
 }
 
 void HatchKey::initDisabled () {

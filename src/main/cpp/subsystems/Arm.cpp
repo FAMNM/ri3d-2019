@@ -9,8 +9,7 @@ Arm::Arm ()
       m_intake(RobotMap::kArmIntake),
       m_armEnc(RobotMap::kArmEncoderA, RobotMap::kArmEncoderB),
       m_armReset(RobotMap::kArmReset),
-      m_armPid(ARM_P, ARM_I, ARM_D, m_armEnc, m_rotate),
-      m_resetting(false) {}
+      m_armPid(ARM_P, ARM_I, ARM_D, m_armEnc, m_rotate) {}
 
 void Arm::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
@@ -19,6 +18,12 @@ void Arm::init () {
 
     auto unsetPidFn = [this]() {
         m_armPid.Disable();
+    };
+
+    auto stopArm = [this]() {
+        if (m_armPid.IsEnabled()) return;
+
+        m_rotate.Set(0);
     };
 
     //Floor position
@@ -49,11 +54,34 @@ void Arm::init () {
         m_armPid.Enable();
     }));
 
+    //Manual arm adjustment
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
+                                         [this]() {
+        if (m_armPid.IsEnabled() || m_driver->readButton(XboxButton::kStart))
+            return;
+
+        m_rotate.Set(-ARM_MANUAL_SPEED);
+    }));
+
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
+                                         [this]() {
+        if (m_armPid.IsEnabled() || m_driver->readButton(XboxButton::kStart)
+                || m_driver->readButton(XboxButton::kBack)) {
+            return;
+        }
+
+        m_rotate.Set(ARM_MANUAL_SPEED);
+    }));
+
     //Disable PID hooks
     m_driver->bind(XboxButton::kA, Gamepad::kUp, unsetPidFn);
     m_driver->bind(XboxButton::kB, Gamepad::kUp, unsetPidFn);
     m_driver->bind(XboxButton::kX, Gamepad::kUp, unsetPidFn);
     m_driver->bind(XboxButton::kY, Gamepad::kUp, unsetPidFn);
+
+    //Stop arm hooks
+    m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopArm);
+    m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopArm);
 }
 
 void Arm::initDisabled () {
@@ -77,14 +105,14 @@ void Arm::teleop () {
 
 void Arm::manualReset () {
     bool isResetting = (m_driver->readButton(XboxButton::kStart)
-                        && m_driver->readButton(XboxButton::kBack));
+                        && m_driver->readButton(XboxButton::kDDown));
 
     if (isResetting) {
         if (m_armReset.Get()) {
             m_rotate.Set(0.);
             m_armEnc.Reset();
         } else {
-            m_rotate.Set(-ARM_RESET_SPEED);
+            m_rotate.Set(ARM_RESET_SPEED);
         }
     } else if (m_rotate.Get() != 0.) {
         m_rotate.Set(0.);
@@ -92,5 +120,5 @@ void Arm::manualReset () {
 }
 
 void Arm::manualIntake () {
-    m_intake.Set(m_driver->GetRawAxis(XboxAxis::kRightTrigger) - m_driver->GetRawAxis(XboxAxis::kLeftTrigger));
+    m_intake.Set(0.4 * (m_driver->GetRawAxis(XboxAxis::kRightTrigger) - m_driver->GetRawAxis(XboxAxis::kLeftTrigger)));
 }
