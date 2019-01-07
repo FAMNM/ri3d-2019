@@ -12,8 +12,8 @@ Drivetrain::Drivetrain ()
       m_drive(m_lDrive, m_rDrive) {}
 
 void Drivetrain::teleopDrive () {
-    m_drive.ArcadeDrive(-m_driver->readAxis(famnm::XboxAxis::kLeftY),
-                        m_driver->readAxis(famnm::XboxAxis::kRightX));
+    m_drive.ArcadeDrive(m_driver->readAxis(famnm::XboxAxis::kLeftY),
+                        -m_driver->readAxis(famnm::XboxAxis::kRightX));
 }
 
 void Drivetrain::init () {
