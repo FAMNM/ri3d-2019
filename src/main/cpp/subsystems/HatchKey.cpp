@@ -15,13 +15,21 @@ void HatchKey::init () {
     m_driver->bind(famnm::XboxButton::kRB, famnm::Gamepad::kDown, [this]() {
         if(!keyLocked) {
             rotateKey();
-            keyLocked = !keyLocked;
         }
     });
     m_driver->bind(famnm::XboxButton::kLB, famnm::Gamepad::kDown, [this]() {
         if(keyLocked) {
             rotateKey();
-            keyLocked = !keyLocked;
+        }
+    });
+    m_driver->bind(famnm::XboxButton::kDUp, famnm::Gamepad::kDown, [this]() {
+        if(keyDeployed && timer.Get() == 0) {
+            toggleKeyDeployed();
+        }
+    });
+    m_driver->bind(famnm::XboxButton::kDDown, famnm::Gamepad::kDown, [this]() {
+        if(!keyDeployed && timer.Get() == 0) {
+            toggleKeyDeployed();
         }
     });
 }
@@ -32,7 +40,6 @@ void HatchKey::teleop () {
         timer.Stop();
         timer.Reset();
     }
-    if()
 }
 
 void HatchKey::rotateKey() {
@@ -42,6 +49,7 @@ void HatchKey::rotateKey() {
     else {
         m_lock.SetAngle(0);
     }
+    keyLocked = !keyLocked;
 }
 
 void HatchKey::toggleKeyDeployed() {
