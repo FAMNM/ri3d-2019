@@ -9,7 +9,7 @@ Arm::Arm ()
 
 void Arm::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
-    getParent()->addSensor(&m_armEnc);
+    getParent()->addSensor("Arm Encoder", &m_armEnc);
 }
 
 void Arm::teleop () {

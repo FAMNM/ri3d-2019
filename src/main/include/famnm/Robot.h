@@ -15,12 +15,13 @@ namespace famnm {
     class Robot: public frc::TimedRobot {
         std::unordered_map<int, Subsystem*> m_subsystems;
         std::unordered_map<int, Gamepad> m_gamepads;
-        std::unordered_map<string, Sendable*> m_sensors;
+        std::unordered_map<std::string, frc::Sendable*> m_sensors;
 
         bool m_loggingEnabled;
 
         void periodic ();
     public:
+        Robot ();
         virtual ~Robot ();
 
         void addSubsystem (Subsystem &subsys) {
@@ -40,7 +41,7 @@ namespace famnm {
                                std::make_tuple(port, std::ref(conf)));
         }
 
-        void addSensor (const std::string &name, Sendable *sensor);
+        void addSensor (const std::string &name, frc::Sendable *sensor);
         void enableLogging (bool enabled) { m_loggingEnabled = enabled; }
 
         Gamepad &getGamepad (int port) { return m_gamepads[port]; }
