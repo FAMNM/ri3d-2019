@@ -69,22 +69,28 @@ void Arm::initTeleop () {
 
 void Arm::teleop () {
     //Arm encoder reset
-    if (!m_armPid.IsEnabled()) {
-        bool isResetting = (m_driver->readButton(XboxButton::kStart)
-                            && m_driver->readButton(XboxButton::kBack));
-
-        if (isResetting) {
-            if (m_armReset.Get()) {
-                m_rotate.Set(0.);
-                m_armEnc.Reset();
-            } else {
-                m_rotate.Set(-ARM_RESET_SPEED);
-            }
-        } else if (m_rotate.Get() != 0.) {
-            m_rotate.Set(0.);
-        }
-    }
+    if (!m_armPid.IsEnabled()) manualReset();
     
     //Intake roller manipulation
+    manualIntake();
+}
+
+void Arm::manualReset () {
+    bool isResetting = (m_driver->readButton(XboxButton::kStart)
+                        && m_driver->readButton(XboxButton::kBack));
+
+    if (isResetting) {
+        if (m_armReset.Get()) {
+            m_rotate.Set(0.);
+            m_armEnc.Reset();
+        } else {
+            m_rotate.Set(-ARM_RESET_SPEED);
+        }
+    } else if (m_rotate.Get() != 0.) {
+        m_rotate.Set(0.);
+    }
+}
+
+void Arm::manualIntake () {
     m_intake.Set(m_driver->GetRawAxis(XboxAxis::kRightTrigger) - m_driver->GetRawAxis(XboxAxis::kLeftTrigger));
 }

@@ -32,6 +32,8 @@ class Arm : public famnm::Subsystem {
     std::vector<famnm::Gamepad::BoundOp> m_teleopOps;
     bool m_resetting;
 
+    void manualReset ();
+    void manualIntake ();
 public:
     Arm ();
 
