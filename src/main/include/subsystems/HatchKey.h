@@ -19,6 +19,7 @@ class HatchKey : public famnm::Subsystem {
 
     void rotateKey();
     void toggleKeyDeployed();
+    void manualDeploy();
 
     bool keyLocked;
     bool keyDeployed;
