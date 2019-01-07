@@ -5,7 +5,7 @@
 static const constexpr double JOYSTICK_DEADBAND = 0.1;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
 
-Ri3dRobot::Ri3dRobot () {
+Ri3dRobot::Ri3dRobot () : m_pdp(0), m_arm(&m_pdp) {
     //Add subsystems here
     addSubsystem(m_drivetrain);
     addSubsystem(m_arm);
@@ -20,6 +20,7 @@ Ri3dRobot::Ri3dRobot () {
 void Ri3dRobot::init () {
     cs::UsbCamera cam = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
     cam.SetVideoMode(cs::VideoMode::kMJPEG, 640, 360, 30);
+    addSensor("Power Distribution Panel", &m_pdp);
 }
 
 void Ri3dRobot::initDisabled () {
@@ -31,7 +32,7 @@ void Ri3dRobot::initAuton () {
 }
 
 void Ri3dRobot::initTeleop () {
-    enableLogging(false);
+    
 }
 
 void Ri3dRobot::initTest () {

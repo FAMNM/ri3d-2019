@@ -40,6 +40,9 @@ namespace RobotMap {
     const constexpr int kArmIntake = 6;
     const constexpr int kHatchKeyLock = 9;
 
+    //PDP CHANNELS
+    const constexpr int kArmRotateChannel = 0; //TODO - determine the correct value for this
+
     //DIGITAL I/O
     const constexpr int kArmEncoderA = 0;
     const constexpr int kArmEncoderB = 1;
