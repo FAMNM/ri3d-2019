@@ -24,7 +24,7 @@ void Drivetrain::teleopDrive () {
 void Drivetrain::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
-    m_driver->bind(famnm::XboxButton::kB, famnm::Gamepad::kUp, [this]() {
+    m_driver->bind(famnm::XboxButton::kB, famnm::Gamepad::kDown, [this]() {
         m_useTank = !m_useTank;
     });
 }

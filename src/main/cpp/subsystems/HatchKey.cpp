@@ -53,8 +53,13 @@ void HatchKey::init () {
     //m_teleopOps.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
     //                                     undeployKey));
 
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDLeft, Gamepad::kNone, [this]() {
+        m_deploy.Set(-0.2);
+    }));
+
     m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopKey);
     m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kDLeft, Gamepad::kUp, stopKey);
 }
 
 void HatchKey::initDisabled () {
