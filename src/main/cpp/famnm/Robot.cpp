@@ -1,4 +1,5 @@
 #include "famnm/Robot.h"
+#include <frc/smartdashboard/SmartDashboard>
 
 template <typename K, typename V>
 void loopMap (std::unordered_map<K, V> &map, std::function<void(V&)> func) {
@@ -6,12 +7,17 @@ void loopMap (std::unordered_map<K, V> &map, std::function<void(V&)> func) {
 }
 
 namespace famnm {
-    Robot::~Robot () {
+    Robot::~Robot () : m_loggingEnabled(true) {
         loopMap<int, Subsystem*>(m_subsystems, [](Subsystem*& subsys) { delete subsys; });
     }
 
     void Robot::periodic () {
         loopMap<int, Gamepad>(m_gamepads, [](Gamepad& pad) { pad.poll(); });
+
+        if (m_loggingEnabled) {
+            for (std::pair<const std::string, Sendable*> sensor : m_sensors)
+                frc::SmartDashboard::PutData(sensor.first, sensor.second);
+        }
     }
 
     void Robot::RobotInit () {

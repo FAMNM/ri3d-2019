@@ -19,7 +19,6 @@ public:
     virtual int getId () const override { return RobotMap::kArmId; }
 
     virtual void init () override;
-    virtual void disabled () override;
     virtual void teleop () override;
 };
 

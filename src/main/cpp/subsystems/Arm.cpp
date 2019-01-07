@@ -1,6 +1,5 @@
 #include "subsystems/Arm.h"
 #include "famnm/Robot.h"
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 
 Arm::Arm ()
@@ -10,12 +9,7 @@ Arm::Arm ()
 
 void Arm::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
-}
-
-void Arm::disabled () {
-    frc::SmartDashboard::PutData("Arm Encoder", &m_armEnc);
-    frc::SmartDashboard::PutNumber("Test", 0);
-    std::cout << "Hello World!" << std::endl;
+    getParent()->addSensor(&m_armEnc);
 }
 
 void Arm::teleop () {
