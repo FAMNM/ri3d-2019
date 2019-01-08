@@ -44,6 +44,10 @@ namespace RobotMap {
     const constexpr int kArmEncoderA = 0;
     const constexpr int kArmEncoderB = 1;
     const constexpr int kArmReset = 2;
+
+    //CAMERAS
+    const constexpr int kFrontCamera = 0;
+    const constexpr int kRearCamera = 1;
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;
