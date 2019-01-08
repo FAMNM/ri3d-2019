@@ -29,7 +29,7 @@ void Drivetrain::init () {
         }
 
         m_driveMplier = -m_driveMplier;
-    }
+    };
 
     m_driver->bind(XboxButton::kStart, Gamepad::kDown, toggleReverse);
     m_driver->bind(XboxButton::kBack, Gamepad::kDown, toggleReverse);
