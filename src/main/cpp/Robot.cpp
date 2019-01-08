@@ -5,7 +5,7 @@
 static const constexpr double JOYSTICK_DEADBAND = 0.1;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
 
-Ri3dRobot::Ri3dRobot () : m_reverseCam(false) {
+Ri3dRobot::Ri3dRobot () : m_pdp(0), m_arm(&m_pdp), m_reverseCam(false) {
     //Add subsystems here
     addSubsystem(m_drivetrain);
     addSubsystem(m_arm);
@@ -47,7 +47,7 @@ void Ri3dRobot::initAuton () {
 }
 
 void Ri3dRobot::initTeleop () {
-    enableLogging(false);
+    
 }
 
 void Ri3dRobot::initTest () {

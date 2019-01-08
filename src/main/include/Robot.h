@@ -6,8 +6,11 @@
 #include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
 #include <cscore_oo.h>
+#include <frc/PowerDistributionPanel.h>
 
 class Ri3dRobot : public famnm::Robot {
+    frc::PowerDistributionPanel m_pdp;
+    
     //Declare subsystems here
     Drivetrain m_drivetrain;
     Arm m_arm;

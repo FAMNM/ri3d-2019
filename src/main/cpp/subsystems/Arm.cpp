@@ -4,8 +4,9 @@
 
 using namespace famnm;
 
-Arm::Arm ()
-    : m_rotate(RobotMap::kArmRotate),
+Arm::Arm (frc::PowerDistributionPanel *pdp)
+    : m_pdp(pdp),
+      m_rotate(RobotMap::kArmRotate),
       m_intake(RobotMap::kArmIntake),
       m_armEnc(RobotMap::kArmEncoderA, RobotMap::kArmEncoderB),
       m_armReset(RobotMap::kArmReset),
@@ -131,5 +132,22 @@ void Arm::manualReset () {
 }
 
 void Arm::manualIntake () {
-    m_intake.Set(0.7 * (m_driver->rawAxis(XboxAxis::kRightTrigger) - m_driver->rawAxis(XboxAxis::kLeftTrigger)));
+    double intakeSpeed = 0.7 * (m_driver->rawAxis(XboxAxis::kRightTrigger) - m_driver->rawAxis(XboxAxis::kLeftTrigger));
+    if(m_pdp->GetCurrent(RobotMap::kArmRotateChannel) > STALL_CURRENT) {
+        if(m_stallTimer.Get() == 0) {
+            m_stallTimer.Start();
+        }
+        else if(m_stallTimer.Get() > STALL_TIME) {
+            if(intakeSpeed > 0) {
+                intakeSpeed = 0;
+            }
+        }
+    }
+    else {
+        if(m_stallTimer.Get() > 0) {
+            m_stallTimer.Stop();
+            m_stallTimer.Reset(); 
+        }
+    }
+    m_intake.Set(intakeSpeed);
 }
