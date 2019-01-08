@@ -15,10 +15,8 @@ HatchKey::HatchKey ()
 void HatchKey::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
-    auto undeployKey = [this]() {
-        if(keyDeployed && timer.Get() == 0 && !m_driver->readButton(XboxButton::kStart)) {
-            toggleKeyDeployed();
-        }
+    auto stopKey = [this]() {
+        m_deploy.Set(0.);
     };
 
     //Deploy key

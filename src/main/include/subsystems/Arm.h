@@ -17,7 +17,7 @@ class Arm : public famnm::Subsystem {
     static const constexpr double ARM_I = -0.0000001;
     static const constexpr double ARM_D = -0.0005;
 
-    static const constexpr double ARM_OFFSET = 250.
+    static const constexpr double ARM_OFFSET = 250.;
     static const constexpr double ARM_FLOOR = 0-ARM_OFFSET;
     static const constexpr double ARM_CARGO_SHIP = 472.-ARM_OFFSET;
     static const constexpr double ARM_ROCKET = 243.-ARM_OFFSET;
@@ -43,7 +43,6 @@ class Arm : public famnm::Subsystem {
     std::vector<famnm::Gamepad::BoundOp> m_teleopHold;
 
     void manualIntake ();
-    void manualArm();
 
     bool resetIsPressed () { return !m_armReset.Get(); }
 
