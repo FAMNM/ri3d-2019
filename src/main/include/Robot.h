@@ -18,6 +18,8 @@ class Ri3dRobot : public famnm::Robot {
 
     cs::UsbCamera m_frontCam;
     cs::UsbCamera m_rearCam;
+    cs::CvSink m_dummyFrontSink;
+    cs::CvSink m_dummyRearSink;
     bool m_reverseCam;
 
     void updateCameras ();

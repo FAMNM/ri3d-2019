@@ -35,6 +35,12 @@ void Ri3dRobot::init () {
     m_frontCam.SetVideoMode(cs::VideoMode::kMJPEG, 640, 360, 30);
     m_rearCam.SetVideoMode(cs::VideoMode::kMJPEG, 640, 360, 30);
 
+    m_dummyFrontSink.SetSource(m_frontCam);
+    m_dummyRearSink.SetSource(m_rearCam);
+
+    m_dummyFrontSink.SetEnabled(true);
+    m_dummyRearSink.SetEnabled(true);
+
     frc::CameraServer::GetInstance()->GetServer().SetSource(m_frontCam);
 }
 
@@ -54,17 +60,19 @@ void Ri3dRobot::initTest () {
 }
 
 void Ri3dRobot::disabled () {
+    updateCameras();
 }
 
 void Ri3dRobot::auton () {
-
+    updateCameras();
 }
 
 void Ri3dRobot::teleop () {
+    updateCameras();
 }
 
 void Ri3dRobot::test () {
-
+    updateCameras();
 }
 
 #ifndef RUNNING_FRC_TESTS
