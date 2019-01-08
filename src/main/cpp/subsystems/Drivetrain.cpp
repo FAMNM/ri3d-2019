@@ -1,6 +1,7 @@
 #include "subsystems/Drivetrain.h"
 #include "famnm/Robot.h"
 #include <iostream>
+#include <cmath>
 
 using namespace famnm;
 
@@ -16,7 +17,7 @@ Drivetrain::Drivetrain ()
 
 void Drivetrain::teleopDrive () {
     m_drive.ArcadeDrive((m_driveMplier * m_driver->readAxis(XboxAxis::kLeftY)),
-                        (-m_driveMplier * m_driver->readAxis(XboxAxis::kRightX)));
+                        (fabs(m_driveMplier) * m_driver->readAxis(XboxAxis::kRightX)));
 }
 
 void Drivetrain::init () {

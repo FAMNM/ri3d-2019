@@ -24,7 +24,7 @@ class Arm : public famnm::Subsystem {
     static const constexpr double ARM_PACKAGE = 588.-ARM_OFFSET;
 
     static const constexpr double ARM_RESET_SPEED = 0.15;
-    static const constexpr double ARM_MANUAL_SPEED = 0.35;
+    static const constexpr double ARM_MANUAL_SPEED = 0.3; //0.35
 
     static const constexpr double STALL_CURRENT = 3.0; //TODO - determine the actual value of this
     static const constexpr double STALL_TIME = 0.5; //TODO - decide on a value for this

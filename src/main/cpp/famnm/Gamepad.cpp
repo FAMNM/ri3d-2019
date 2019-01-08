@@ -29,8 +29,9 @@ namespace famnm {
     double Gamepad::applyDeadband (double raw) const {
         if (fabs(raw) >= m_deadband) return raw;
 
-        return (raw < 0 ? ((-square(raw)) / m_deadband)
-                        : (square(raw) / m_deadband));
+        /*return (raw < 0 ? ((-square(raw)) / m_deadband)
+                        : (square(raw) / m_deadband));*/
+        return 0;
     }
 
     void Gamepad::poll () {
