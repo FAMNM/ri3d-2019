@@ -133,7 +133,7 @@ void Arm::manualReset () {
 
 void Arm::manualIntake () {
     double intakeSpeed = 0.7 * (m_driver->rawAxis(XboxAxis::kRightTrigger) - m_driver->rawAxis(XboxAxis::kLeftTrigger));
-    if(m_pdp.GetCurrent(RobotMap::kArmRotateChannel) > STALL_CURRENT) {
+    if(m_pdp->GetCurrent(RobotMap::kArmRotateChannel) > STALL_CURRENT) {
         if(m_stallTimer.Get() == 0) {
             m_stallTimer.Start();
         }

@@ -22,15 +22,15 @@ void HatchKey::init () {
     //Deploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kRB, Gamepad::kNone,
                                          [this]() {
-        m_deploy.Set((m_driver->readButton(XboxButton::kStart) ? -0.3 : -0.7));
+        if(!m_deployLimit.Get()) {
+            m_deploy.Set((m_driver->readButton(XboxButton::kStart) ? -0.3 : -0.7));
+        }
     }));
 
     //Undeploy key
     m_teleopOps.push_back(m_driver->bind(XboxButton::kLB, Gamepad::kNone,
                                          [this]() {
-        if(!m_deployLimit.Get()) {
-            m_deploy.Set(0.7);
-        }
+        m_deploy.Set(0.7);
     }));
 
     m_driver->bind(XboxButton::kLB, Gamepad::kUp, stopKey);
