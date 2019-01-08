@@ -19,6 +19,7 @@ class Drivetrain : public famnm::Subsystem {
 
     frc::DifferentialDrive m_drive;
     famnm::Gamepad *m_driver;
+    double m_driveMplier;
 
     void teleopDrive();
 
@@ -29,6 +30,9 @@ public:
 
     virtual void init () override;
     virtual void teleop () override;
+
+    double getDriveMplier () const { return m_driveMplier; }
+    bool isReverse () const { return m_driveMplier < 0; }
 };
 
 #endif //DRIVETRAIN_H__

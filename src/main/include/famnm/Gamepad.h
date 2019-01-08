@@ -165,7 +165,7 @@ namespace famnm {
         double readAxis (int axis) const { return applyDeadband(GetRawAxis(axis)); }
 
         template <typename AxisEnum>
-        double GetRawAxis (AxisEnum axis) const { return GetRawAxis(static_cast<int>(axis)); }
+        double rawAxis (AxisEnum axis) const { return GetRawAxis(static_cast<int>(axis)); }
 
         template <typename ButtonEnum>
         BoundOp bind (ButtonEnum button, BindType type, std::function<void()> op) { 

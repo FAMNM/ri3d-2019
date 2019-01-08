@@ -35,9 +35,14 @@ namespace famnm {
 
     void Gamepad::poll () {
         for (int i = 1; i <= m_numButtons; ++i) {
+            auto &opsList = m_boundOps[i - 1];
             bool state = readButton(i);
             bool last = f_buttons[i - 1];
             BindType transition;
+
+            f_buttons[i - 1] = state;
+
+            if (opsList.empty()) continue;
 
             if (state && !last) transition = kDown;
             else if (!state && last) transition = kUp;
@@ -46,9 +51,7 @@ namespace famnm {
 
             for (OpData &op : m_boundOps[i - 1]) {
                 if (transition == op.type && transition != kNone) op.op();
-            }
-
-            f_buttons[i - 1] = state;
+            } 
         }
     }
 
@@ -83,9 +86,9 @@ namespace famnm {
 
         int axisIdx = m_translate(button);
         
-        if (abs(axisIdx) < m_numAxes) { 
-            return (axisIdx < 0 ? (GetRawAxis(abs(axisIdx)) <= -m_emButtonThresh)
-                                : (GetRawAxis(axisIdx) >= m_emButtonThresh));
+        if (abs(axisIdx) < m_numAxes) {
+            return (axisIdx < 0 ? (rawAxis(abs(axisIdx)) <= -m_emButtonThresh)
+                                : (rawAxis(axisIdx) >= m_emButtonThresh));
         } else {
             int povIdx = (abs(axisIdx) - m_numAxes) >> 1;
             int povAxis = (abs(axisIdx) - m_numAxes) % 2;

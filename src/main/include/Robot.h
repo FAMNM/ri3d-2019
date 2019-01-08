@@ -5,12 +5,22 @@
 #include "subsystems/Arm.h"
 #include "subsystems/HatchKey.h"
 #include "famnm/Robot.h"
+#include <cscore_oo.h>
+#include <frc/PowerDistributionPanel.h>
 
 class Ri3dRobot : public famnm::Robot {
+    frc::PowerDistributionPanel m_pdp;
+    
     //Declare subsystems here
     Drivetrain m_drivetrain;
     Arm m_arm;
     HatchKey m_hatchkey;
+
+    cs::UsbCamera m_frontCam;
+    cs::UsbCamera m_rearCam;
+    bool m_reverseCam;
+
+    void updateCameras ();
 
 public:
     Ri3dRobot ();

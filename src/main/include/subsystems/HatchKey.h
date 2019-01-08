@@ -7,11 +7,12 @@
 #include <frc/Spark.h>
 #include <frc/Servo.h>
 #include <frc/Timer.h>
+#include <frc/DigitalInput.h>
 #include <vector>
 
 class HatchKey : public famnm::Subsystem {
     frc::Spark m_deploy;
-    frc::Servo m_lock;
+    frc::DigitalInput m_deployLimit;
     famnm::Gamepad *m_driver;
     frc::Timer timer;
 
