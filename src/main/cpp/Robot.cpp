@@ -2,7 +2,7 @@
 #include "RobotMap.h"
 #include <cameraserver/CameraServer.h>
 
-static const constexpr double JOYSTICK_DEADBAND = 0.1;
+static const constexpr double JOYSTICK_DEADBAND = 0.4;
 static const constexpr double EM_BUTTON_THRESH = 0.5;
 
 Ri3dRobot::Ri3dRobot () : m_pdp(0), m_arm(&m_pdp), m_reverseCam(false) {
@@ -42,6 +42,8 @@ void Ri3dRobot::init () {
     m_dummyRearSink.SetEnabled(true);
 
     frc::CameraServer::GetInstance()->GetServer().SetSource(m_frontCam);
+
+    addSensor("Power Distribution Panel", &m_pdp);
 }
 
 void Ri3dRobot::initDisabled () {

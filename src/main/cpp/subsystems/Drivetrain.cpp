@@ -20,7 +20,7 @@ void Drivetrain::teleopDrive () {
 }
 
 void Drivetrain::init () {
-    m_driver = &getParent()->getGamepad(RobotMap::kDriver);
+    m_driver = &getParent()->getGamepad(RobotMap::kOperator);
 
     auto toggleReverse = [this] () {
         if (!(m_driver->readButton(XboxButton::kStart)

@@ -1,6 +1,7 @@
 #include "subsystems/Arm.h"
 #include "famnm/Robot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <algorithm>
 
 using namespace famnm;
 
@@ -10,7 +11,8 @@ Arm::Arm (frc::PowerDistributionPanel *pdp)
       m_intake(RobotMap::kArmIntake),
       m_armEnc(RobotMap::kArmEncoderA, RobotMap::kArmEncoderB),
       m_armReset(RobotMap::kArmReset),
-      m_armPid(ARM_P, ARM_I, ARM_D, m_armEnc, m_rotate) {}
+      m_armPid(ARM_P, ARM_I, ARM_D, m_armEnc, m_rotate),
+      m_noIntake(false) {}
 
 void Arm::init () {
     m_driver = &getParent()->getGamepad(RobotMap::kDriver);
@@ -107,6 +109,16 @@ void Arm::teleop () {
 
     //Intake roller manipulation
     manualIntake();
+
+    if (!m_armPid.IsEnabled() && !(m_driver->readButton(XboxButton::kDUp) || m_driver->readButton(XboxButton::kDDown))) {
+        double speed = m_driver->readAxis(XboxAxis::kLeftY);
+
+        if (resetIsPressed()) speed = std::min(0., speed);
+
+        m_rotate.Set(speed);
+    }
+
+    frc::SmartDashboard::PutNumber("Stall Timer", m_stallTimer.Get());
 }
 
 void Arm::manualIntake () {
@@ -116,9 +128,7 @@ void Arm::manualIntake () {
             m_stallTimer.Start();
         }
         else if(m_stallTimer.Get() > STALL_TIME) {
-            if(intakeSpeed > 0) {
-                intakeSpeed = 0;
-            }
+            m_noIntake = true;
         }
     }
     else {
@@ -127,5 +137,12 @@ void Arm::manualIntake () {
             m_stallTimer.Reset(); 
         }
     }
+    
+    if (m_noIntake)
+        intakeSpeed = std::max(-0.05, intakeSpeed);
+
+    if (intakeSpeed > 0)
+        m_noIntake = false;
+
     m_intake.Set(intakeSpeed);
 }

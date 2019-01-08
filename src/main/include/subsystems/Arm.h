@@ -13,9 +13,9 @@
 #include <vector>
 
 class Arm : public famnm::Subsystem {
-    static const constexpr double ARM_P = -0.0035;
-    static const constexpr double ARM_I = -0.0000001;
-    static const constexpr double ARM_D = -0.0005;
+    static const constexpr double ARM_P = -0.00001;
+    static const constexpr double ARM_I = -0.000000001;
+    static const constexpr double ARM_D = -0.000005;
 
     static const constexpr double ARM_OFFSET = 250.;
     static const constexpr double ARM_FLOOR = 0-ARM_OFFSET;
@@ -26,8 +26,8 @@ class Arm : public famnm::Subsystem {
     static const constexpr double ARM_RESET_SPEED = 0.15;
     static const constexpr double ARM_MANUAL_SPEED = 0.35;
 
-    static const constexpr double STALL_CURRENT = 10; //TODO - determine the actual value of this
-    static const constexpr double STALL_TIME = 1.; //TODO - decide on a value for this
+    static const constexpr double STALL_CURRENT = 3.0; //TODO - determine the actual value of this
+    static const constexpr double STALL_TIME = 0.5; //TODO - decide on a value for this
 
     frc::Spark m_rotate;
     frc::Spark m_intake;
@@ -41,6 +41,8 @@ class Arm : public famnm::Subsystem {
 
     std::vector<famnm::Gamepad::BoundOp> m_teleopDown;
     std::vector<famnm::Gamepad::BoundOp> m_teleopHold;
+
+    bool m_noIntake;
 
     void manualIntake ();
 
