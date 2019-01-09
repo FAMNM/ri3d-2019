@@ -87,6 +87,8 @@ void Arm::init () {
     //Stop arm hooks
     m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopArm);
     m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopArm);
+
+    m_armPid.SetOutputRange(-0.7, 0.7);
 }
 
 void Arm::initDisabled () {

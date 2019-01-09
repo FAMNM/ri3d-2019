@@ -13,15 +13,14 @@
 #include <vector>
 
 class Arm : public famnm::Subsystem {
-    static const constexpr double ARM_P = -0.00001;
-    static const constexpr double ARM_I = -0.000000001;
-    static const constexpr double ARM_D = -0.000005;
+    static const constexpr double ARM_P = -0.00003;
+    static const constexpr double ARM_I = 0;
+    static const constexpr double ARM_D = -0.000035;
 
-    static const constexpr double ARM_OFFSET = 250.;
-    static const constexpr double ARM_FLOOR = 0-ARM_OFFSET;
-    static const constexpr double ARM_CARGO_SHIP = 472.-ARM_OFFSET;
-    static const constexpr double ARM_ROCKET = 243.-ARM_OFFSET;
-    static const constexpr double ARM_PACKAGE = 588.-ARM_OFFSET;
+    static const constexpr double ARM_FLOOR = 0.;
+    static const constexpr double ARM_CARGO_SHIP = 46000.;
+    static const constexpr double ARM_ROCKET = 33500.;
+    static const constexpr double ARM_PACKAGE = 55000.;
 
     static const constexpr double ARM_RESET_SPEED = 0.15;
     static const constexpr double ARM_MANUAL_SPEED = 0.3; //0.35
