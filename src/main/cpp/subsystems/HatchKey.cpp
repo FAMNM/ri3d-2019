@@ -47,6 +47,14 @@ void HatchKey::initTeleop () {
     for (Gamepad::BoundOp &op : m_teleopOps) op.type() = Gamepad::kDown;
 }
 
+void HatchKey::initAuton () {
+    initTeleop();
+}
+
+void HatchKey::auton () {
+    teleop();
+}
+
 void HatchKey::teleop () {
 
 }

@@ -54,7 +54,9 @@ public:
 
     virtual void init () override;
     virtual void initDisabled () override;
+    virtual void initAuton () override;
     virtual void initTeleop () override;
+    virtual void auton () override;
     virtual void teleop () override;
 };
 

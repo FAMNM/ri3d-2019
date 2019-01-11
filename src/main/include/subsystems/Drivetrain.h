@@ -29,6 +29,7 @@ public:
     virtual int getId() const override { return RobotMap::kDrivetrainId; }
 
     virtual void init () override;
+    virtual void auton () override;
     virtual void teleop () override;
 
     double getDriveMplier () const { return m_driveMplier; }

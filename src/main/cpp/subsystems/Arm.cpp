@@ -99,11 +99,19 @@ void Arm::initDisabled () {
     m_rotate.Set(0);
 }
 
+void Arm::initAuton () {
+    initTeleop();
+}
+
 void Arm::initTeleop () {
     //Enable all PID manipulation
     for (Gamepad::BoundOp &op : m_teleopDown) op.type() = Gamepad::kDown;
     for (Gamepad::BoundOp &op : m_teleopHold) op.type() = Gamepad::kHold;
     m_armPid.Disable();
+}
+
+void Arm::auton () {
+    teleop();
 }
 
 void Arm::teleop () {

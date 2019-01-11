@@ -36,6 +36,10 @@ void Drivetrain::init () {
     m_driver->bind(XboxButton::kBack, Gamepad::kDown, toggleReverse);
 }
 
+void Drivetrain::auton () {
+    teleopDrive();
+}
+
 void Drivetrain::teleop () {
     teleopDrive();
 }

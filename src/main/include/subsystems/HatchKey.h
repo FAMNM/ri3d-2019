@@ -30,10 +30,12 @@ public:
 
     virtual int getId () const override { return RobotMap::kHatchKeyId; }
 
-    virtual void init ();
-    virtual void initDisabled ();
-    virtual void initTeleop ();
-    virtual void teleop ();
+    virtual void init () override;
+    virtual void initDisabled () override;
+    virtual void initAuton () override;
+    virtual void initTeleop () override;
+    virtual void auton () override;
+    virtual void teleop () override;
 };
 
 #endif //HATCHKEY_H__
