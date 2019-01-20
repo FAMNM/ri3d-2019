@@ -13,14 +13,14 @@ HatchKey::HatchKey ()
       timer() {}
 
 void HatchKey::init () {
-    m_driver = &getParent()->getGamepad(RobotMap::kDriver);
+    m_driver = &getParent()->getGamepad(RobotMap::kOperator);
 
     auto stopKey = [this]() {
         m_deploy.Set(0.);
     };
 
     //Deploy key
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kRB, Gamepad::kNone,
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
                                          [this]() {
         if(!m_deployLimit.Get()) {
             m_deploy.Set((m_driver->readButton(XboxButton::kStart) ? -0.3 : -0.7));
@@ -28,13 +28,13 @@ void HatchKey::init () {
     }));
 
     //Undeploy key
-    m_teleopOps.push_back(m_driver->bind(XboxButton::kLB, Gamepad::kNone,
+    m_teleopOps.push_back(m_driver->bind(XboxButton::kDDown, Gamepad::kNone,
                                          [this]() {
         m_deploy.Set(0.7);
     }));
 
-    m_driver->bind(XboxButton::kLB, Gamepad::kUp, stopKey);
-    m_driver->bind(XboxButton::kRB, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopKey);
+    m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopKey);
 }
 
 void HatchKey::initDisabled () {

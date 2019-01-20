@@ -50,8 +50,8 @@ namespace RobotMap {
     const constexpr int kHatchKeyLimit = 3;
 
     //CAMERAS
-    const constexpr int kFrontCamera = 0;
-    const constexpr int kRearCamera = 1;
+    const constexpr int kFrontCamera = 1;
+    const constexpr int kRearCamera = 0;
     
     //SUBSYSTEM IDS
     const constexpr int kDrivetrainId = 0;

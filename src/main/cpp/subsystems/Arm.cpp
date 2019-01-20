@@ -32,34 +32,35 @@ void Arm::init () {
     };
 
     //Floor position
-    m_teleopDown.push_back(m_driver->bind(XboxButton::kA, Gamepad::kNone,
+    m_teleopDown.push_back(m_operator->bind(XboxButton::kA, Gamepad::kNone,
                                          [this]() {
         m_armPid.SetSetpoint(ARM_FLOOR);
         m_armPid.Enable();
     }));
 
     //Cargo ship position
-    m_teleopDown.push_back(m_driver->bind(XboxButton::kB, Gamepad::kNone,
+    m_teleopDown.push_back(m_operator->bind(XboxButton::kB, Gamepad::kNone,
                                          [this]() {
         m_armPid.SetSetpoint(ARM_CARGO_SHIP);
         m_armPid.Enable();
     }));
 
     //Rocket position
-    m_teleopDown.push_back(m_driver->bind(XboxButton::kX, Gamepad::kNone,
+    m_teleopDown.push_back(m_operator->bind(XboxButton::kX, Gamepad::kNone,
                                          [this]() {
         m_armPid.SetSetpoint(ARM_ROCKET);
         m_armPid.Enable();
     }));
 
     //Package position
-    m_teleopDown.push_back(m_driver->bind(XboxButton::kY, Gamepad::kNone,
+    m_teleopDown.push_back(m_operator->bind(XboxButton::kY, Gamepad::kNone,
                                          [this]() {
         m_armPid.SetSetpoint(ARM_PACKAGE);
         m_armPid.Enable();
     }));
 
     //Manual arm adjustment
+    /*
     m_teleopHold.push_back(m_driver->bind(XboxButton::kDUp, Gamepad::kNone,
                                          [this]() {
         if (m_armPid.IsEnabled() || m_driver->readButton(XboxButton::kStart))
@@ -76,17 +77,19 @@ void Arm::init () {
 
         m_rotate.Set(m_armReset.Get() ? ARM_MANUAL_SPEED : 0.);
     }));
-
+    */
     
     //Disable PID hooks
-    m_driver->bind(XboxButton::kA, Gamepad::kUp, unsetPidFn);
-    m_driver->bind(XboxButton::kB, Gamepad::kUp, unsetPidFn);
-    m_driver->bind(XboxButton::kX, Gamepad::kUp, unsetPidFn);
-    m_driver->bind(XboxButton::kY, Gamepad::kUp, unsetPidFn);
+    m_operator->bind(XboxButton::kA, Gamepad::kUp, unsetPidFn);
+    m_operator->bind(XboxButton::kB, Gamepad::kUp, unsetPidFn);
+    m_operator->bind(XboxButton::kX, Gamepad::kUp, unsetPidFn);
+    m_operator->bind(XboxButton::kY, Gamepad::kUp, unsetPidFn);
 
     //Stop arm hooks
+    /*
     m_driver->bind(XboxButton::kDUp, Gamepad::kUp, stopArm);
     m_driver->bind(XboxButton::kDDown, Gamepad::kUp, stopArm);
+    */
 
     m_armPid.SetOutputRange(-0.7, 0.7);
 }
@@ -120,12 +123,8 @@ void Arm::teleop () {
     //Intake roller manipulation
     manualIntake();
 
-    if (!m_armPid.IsEnabled() && !(m_driver->readButton(XboxButton::kDUp) || m_driver->readButton(XboxButton::kDDown))) {
-        double speed = m_driver->readAxis(XboxAxis::kLeftY);
-
-        if (resetIsPressed()) speed = std::min(0., speed);
-
-        m_rotate.Set(speed);
+    if (!m_armPid.IsEnabled()) {
+        m_rotate.Set(-m_operator->readAxis(XboxAxis::kLeftY));
     }
 
     frc::SmartDashboard::PutNumber("Stall Timer", m_stallTimer.Get());
@@ -149,7 +148,7 @@ void Arm::manualIntake () {
     }
     
     if (m_noIntake)
-        intakeSpeed = std::max(-0.05, intakeSpeed);
+        intakeSpeed = std::max(-0.15, intakeSpeed);
 
     if (intakeSpeed > 0)
         m_noIntake = false;

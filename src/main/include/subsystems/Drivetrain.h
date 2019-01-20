@@ -20,6 +20,7 @@ class Drivetrain : public famnm::Subsystem {
     frc::DifferentialDrive m_drive;
     famnm::Gamepad *m_driver;
     double m_driveMplier;
+    bool m_slowDown;
 
     void teleopDrive();
 

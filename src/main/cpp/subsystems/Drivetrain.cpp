@@ -13,27 +13,26 @@ Drivetrain::Drivetrain ()
       m_lDrive(m_lfDrive, m_lrDrive),
       m_rDrive(m_rfDrive, m_rrDrive),
       m_drive(m_lDrive, m_rDrive),
-      m_driveMplier(1.) {}
+      m_driveMplier(1.),
+      m_slowDown(false) {}
 
 void Drivetrain::teleopDrive () {
     m_drive.ArcadeDrive((m_driveMplier * m_driver->readAxis(XboxAxis::kLeftY)),
-                        (fabs(m_driveMplier) * m_driver->readAxis(XboxAxis::kRightX)));
+                        1.3 * (fabs(m_driveMplier) * m_driver->readAxis(XboxAxis::kRightX)));
 }
 
 void Drivetrain::init () {
-    m_driver = &getParent()->getGamepad(RobotMap::kOperator);
+    m_driver = &getParent()->getGamepad(RobotMap::kDriver);
 
-    auto toggleReverse = [this] () {
-        if (!(m_driver->readButton(XboxButton::kStart)
-                && m_driver->readButton(XboxButton::kBack))) {
-            return;
-        }
-
+    m_driver->bind(XboxButton::kLB, Gamepad::kDown, [this]() {
+        m_driveMplier *= 0.5;
+    });
+    m_driver->bind(XboxButton::kLB, Gamepad::kUp, [this]() {
+        m_driveMplier *= 2;
+    });
+    m_driver->bind(XboxButton::kRB, Gamepad::kDown, [this]() {
         m_driveMplier = -m_driveMplier;
-    };
-
-    m_driver->bind(XboxButton::kStart, Gamepad::kDown, toggleReverse);
-    m_driver->bind(XboxButton::kBack, Gamepad::kDown, toggleReverse);
+    });
 }
 
 void Drivetrain::auton () {
